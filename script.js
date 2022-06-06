@@ -1,32 +1,32 @@
 requestBody = "SGrupo_procedimento=TODAS_AS_CATEGORIAS__&pesqmes6=Digite+o+texto+e+ache+f%E1cil&SSubgrupo_proced.=TODAS_AS_CATEGORIAS__&pesqmes7=Digite+o+texto+e+ache+f%E1cil&SForma_organiza%E7%E3o=TODAS_AS_CATEGORIAS__&SComplexidade=TODAS_AS_CATEGORIAS__&SFinanciamento=TODAS_AS_CATEGORIAS__&pesqmes10=Digite+o+texto+e+ache+f%E1cil&SRubrica_FAEC=TODAS_AS_CATEGORIAS__&pesqmes11=Digite+o+texto+e+ache+f%E1cil&SRegra_contratual=TODAS_AS_CATEGORIAS__&SNatureza=TODAS_AS_CATEGORIAS__&SRegime=TODAS_AS_CATEGORIAS__&pesqmes14=Digite+o+texto+e+ache+f%E1cil&SNatureza_jur%EDdica=TODAS_AS_CATEGORIAS__&pesqmes15=Digite+o+texto+e+ache+f%E1cil&SEsfera_jur%EDdica=TODAS_AS_CATEGORIAS__&SGest%E3o=TODAS_AS_CATEGORIAS__&formato=table&mostre=Mostra"
-csvLine = new Array()
-csvLine["2101"] = "data:text/csv;charset=utf-8,";
 
 // Request body values
-linha = "Linha=Ano%2Fm%EAs_atendimento&"
-coluna = "Coluna=Regi%E3o&"
-formato = "&formato=table"
+linha = "Linha=Ano%2Fm%EAs_atendimento&";
+coluna = "Coluna=Regi%E3o&";
+formato = "&formato=table";
 
-incrementoSihA = "AIH_aprovadas"
-incrementoSihB = "Valor_total"
-incrementoSihC = "M%E9dia_perman%EAncia"
-incrementoSiaA = "Qtd.aprovada"
-incrementoSiaB = "Valor_aprovado"
+incrementoSihA = "AIH_aprovadas";
+incrementoSihB = "Valor_total";
+incrementoSihC = "M%E9dia_perman%EAncia";
+incrementoSiaA = "Qtd.aprovada";
+incrementoSiaB = "Valor_aprovado";
+
+csvLine = `data:text/csv;charset=utf-8,;;SIH;;;;;;;;;;;;;;;SIA\r\n;;${incrementoSihA};;;;;${incrementoSihB};;;;;${incrementoSihC};;;;;${incrementoSiaA};;;;;${incrementoSiaB}\r\n`;
 
 producaoSih = "i"
 producaoSia = "a"
-ano = "17"
-mes = "01"
+anos = ["17", "18", "19", "20", "21"]
+meses = ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"]
 
-url = `http://tabnet.datasus.gov.br/cgi/tabcgi.exe?sia/cnv/q${producaoSia}uf.def`
-incremento = `Incremento=${incrementoSiaB}&`
-arquivo = `Arquivos=q${producaoSia}uf${ano}${mes}.dbf&`
+url = `http://tabnet.datasus.gov.br/cgi/tabcgi.exe?sih/cnv/q${producaoSih}uf.def`
+incremento = `Incremento=${incrementoSihA}&`
+//arquivo = `Arquivos=q${producaoSih}uf${ano}${mes}.dbf&`
 
 /* SIH */
-//procedimentoLista = ["1531", "2066", "2067", "2717", "2718"] // 0303060301, 0309070015, 0309070023, 0406020566 SIH, 0406020574 SIH
+procedimentoLista = ["1531", "2066", "2067", "2717", "2718"] // 0303060301, 0309070015, 0309070023, 0406020566 SIH, 0406020574 SIH
 
 /* SIA */
-procedimentoLista = ["1547", "2088", "2089"]
+//procedimentoLista = ["1547", "2088", "2089"]
 
 procedimentoNome = {
     1531: "TRATAMENTO DE VARIZES DOS MEMBROS INFERIORES C/ ULCERA",
@@ -38,6 +38,21 @@ procedimentoNome = {
     1547: "TRATAMENTO DE VARIZES DOS MEMBROS INFERIORES C/ ULCERA",
     2088: "TRATAMENTO ESCLEROSANTE NÃO ESTÉTICO DE VARIZES DOS MEMBROS INFERIORES (UNILATERAL)",
     2089: "TRATAMENTO ESCLEROSANTE NÃO ESTÉTICO DE VARIZES DOS MEMBROS INFERIORES (BILATERAL)"
+}
+
+mesAbbr = {
+    "01": "Jan",
+    "02": "Fev",
+    "03": "Mar",
+    "04": "Abr",
+    "05": "Mai",
+    "06": "Jun",
+    "07": "Jul",
+    "08": "Ago",
+    "09": "Set",
+    "10": "Out",
+    "11": "Nov",
+    "12": "Dez"
 }
 
 function loadTab(procedimentoArg) {
@@ -59,31 +74,82 @@ function loadTab(procedimentoArg) {
     tab = parser.parseFromString(xhr.response, "text/html");
 }
 
+function startLine() {
+    csvLine += `01/${mes}/${ano};${procedimentoNome[procedimentoId]};`
+}
+
 function getValues() {
     tableRows = tab.getElementsByTagName("tr")
     valueLine = "-;-;-;-;-"
 
     for (i = 1; i < tableRows.length; i++) { // pula i = 0, já que o mês aparece como descrição nesse <tr>
-        if (tableRows[i].children[0].innerText.includes("Jan")) {
+        if (tableRows[i].children[0].innerText.includes(mesAbbr[mes])) {
             tableData = tableRows[i].getElementsByTagName("td");
             valueLine = `${tableData[1].innerText};${tableData[2].innerText};${tableData[3].innerText};${tableData[4].innerText};${tableData[5].innerText}`
         }
     }
 
-    csvLine["2101"] += `${procedimentoNome[procedimentoId]};${valueLine}\r\n`
+    csvLine += `${valueLine};`
+}
 
-    //console.log(csvLine["2101"])
+function jumpLine() {
+    csvLine += "\r\n";
 }
 
 function main() {
-    for (procedimento in procedimentoLista) {
-        procedimentoId = procedimentoLista[procedimento]
-        procedimentoArg = `SProcedimento=${procedimentoId}&`
-        loadTab(procedimentoArg);
-        getValues();
-    }
+    procedimentoLista = ["1531", "2066", "2067", "2717", "2718"]
 
-    return csvLine["2101"]
+    for (a in anos) {
+        ano = anos[a]
+        for (m in meses) {
+            mes = meses[m]
+
+            for (procedimento in procedimentoLista) {
+                procedimentoId = procedimentoLista[procedimento]
+                console.log(procedimentoId)
+                procedimentoArg = `SProcedimento=${procedimentoId}&`
+                startLine();
+
+                url = `http://tabnet.datasus.gov.br/cgi/tabcgi.exe?sih/cnv/q${producaoSih}uf.def`
+                arquivo = `Arquivos=q${producaoSih}uf${ano}${mes}.dbf&`
+                
+                incremento = `Incremento=${incrementoSihA}&`
+                loadTab(procedimentoArg);
+                getValues();
+
+                incremento = `Incremento=${incrementoSihB}&`
+                loadTab(procedimentoArg);
+                getValues();
+
+                incremento = `Incremento=${incrementoSihC}&`
+                loadTab(procedimentoArg);
+                getValues();
+            
+                procedimentoLista = ["1547", "2088", "2089"]
+                procedimentoId = procedimentoLista[procedimento]
+                console.log(procedimentoId)
+                if (procedimentoId) {
+                    procedimentoArg = `SProcedimento=${procedimentoId}&`
+
+                    url = `http://tabnet.datasus.gov.br/cgi/tabcgi.exe?sia/cnv/q${producaoSia}uf.def`
+                    arquivo = `Arquivos=q${producaoSia}uf${ano}${mes}.dbf&`
+
+                    incremento = `Incremento=${incrementoSiaA}&`
+                    loadTab(procedimentoArg);
+                    getValues();
+                    
+                    incremento = `Incremento=${incrementoSiaB}&`
+                    loadTab(procedimentoArg);
+                    getValues();
+
+                }
+                jumpLine();
+                procedimentoLista = ["1531", "2066", "2067", "2717", "2718"]
+            }
+        }
+            procedimentoLista = ["1531", "2066", "2067", "2717", "2718"]
+    }
+    return csvLine
 }
 
-//  window.open(encodeURI(csvLine["2101"]))
+// window.open(encodeURI(csvLine))
