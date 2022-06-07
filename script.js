@@ -11,7 +11,7 @@ incrementoSihC = "M%E9dia_perman%EAncia";
 incrementoSiaA = "Qtd.aprovada";
 incrementoSiaB = "Valor_aprovado";
 
-csvLine = `data:text/csv;charset=utf-8,;;SIH;;;;;;;;;;;;;;;SIA\r\n;;${incrementoSihA};;;;;${incrementoSihB};;;;;${incrementoSihC};;;;;${incrementoSiaA};;;;;${incrementoSiaB}\r\n`;
+csvLine = `data:text/csv;charset=utf-8,;;SIH;;;;;;;;;;;;;;;SIA\r\n;;${incrementoSihA};;;;;${incrementoSihB};;;;;${incrementoSihC};;;;;${incrementoSiaA};;;;;${incrementoSiaB}\r\n;;N;NE;SE;S;CO;N;NE;SE;S;CO;N;NE;SE;S;CO;N;NE;SE;S;CO;N;NE;SE;S;CO\r\n`;
 
 producaoSih = "i"
 producaoSia = "a"
@@ -20,7 +20,6 @@ meses = ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"]
 
 url = `http://tabnet.datasus.gov.br/cgi/tabcgi.exe?sih/cnv/q${producaoSih}uf.def`
 incremento = `Incremento=${incrementoSihA}&`
-//arquivo = `Arquivos=q${producaoSih}uf${ano}${mes}.dbf&`
 
 /* SIH */
 procedimentoLista = ["1531", "2066", "2067", "2717", "2718"] // 0303060301, 0309070015, 0309070023, 0406020566 SIH, 0406020574 SIH
@@ -85,7 +84,33 @@ function getValues() {
     for (i = 1; i < tableRows.length; i++) { // pula i = 0, já que o mês aparece como descrição nesse <tr>
         if (tableRows[i].children[0].innerText.includes(mesAbbr[mes])) {
             tableData = tableRows[i].getElementsByTagName("td");
-            valueLine = `${tableData[1].innerText};${tableData[2].innerText};${tableData[3].innerText};${tableData[4].innerText};${tableData[5].innerText}`
+
+            dataRegioes = new Array(5).fill("-")
+
+            // excessões em que só uma coluna é mostrada
+            cabmeio = tab.getElementsByClassName("cabmeio")
+            
+            for (w = 0; w < cabmeio.length; w++) {
+                if (cabmeio[w] != undefined) {
+                    if (cabmeio[w].innerText.includes("Norte")) {
+                        dataRegioes[0] = tableData[w+1].innerText;
+                    } else if (cabmeio[w].innerText.includes("Nordeste")) {
+                        dataRegioes[1] = tableData[w+1].innerText;
+                    } else if (cabmeio[w].innerText.includes("Sudeste")) {
+                        dataRegioes[2] = tableData[w+1].innerText;
+                    } else if (cabmeio[w].innerText.includes("Sul")) {
+                        dataRegioes[3] = tableData[w+1].innerText;
+                    } else if (cabmeio[w].innerText.includes("Centro-Oeste")) {
+                        dataRegioes[4] = tableData[w+1].innerText;
+                    } else { 
+                        console.log("Erro:", tableData[w+1].innerText, "não reconhecido")
+                    }
+                }
+            }
+
+            valueLine = `${dataRegioes[0]};${dataRegioes[1]};${dataRegioes[2]};${dataRegioes[3]};${dataRegioes[4]}`
+            
+
         }
     }
 
@@ -106,7 +131,8 @@ function main() {
 
             for (procedimento in procedimentoLista) {
                 procedimentoId = procedimentoLista[procedimento]
-                console.log(procedimentoId)
+                //console.log(procedimentoId)
+                console.log(mes, ano)
                 procedimentoArg = `SProcedimento=${procedimentoId}&`
                 startLine();
 
@@ -127,7 +153,7 @@ function main() {
             
                 procedimentoLista = ["1547", "2088", "2089"]
                 procedimentoId = procedimentoLista[procedimento]
-                console.log(procedimentoId)
+                //console.log(procedimentoId)
                 if (procedimentoId) {
                     procedimentoArg = `SProcedimento=${procedimentoId}&`
 
