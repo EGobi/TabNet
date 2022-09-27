@@ -1,3 +1,5 @@
+// Os ids de procedimento mudam conforme o tempo! Cuidado!
+
 requestBody = "Linha=Ano%2Fm%EAs_atendimento&Coluna=Regi%E3o&pesqmes2=Digite+o+texto+e+ache+f%E1cil&SUnidade_da_Federa%E7%E3o=TODAS_AS_CATEGORIAS__&SCar%E1ter_atendimento=TODAS_AS_CATEGORIAS__&SRegime=TODAS_AS_CATEGORIAS__&pesqmes5=Digite+o+texto+e+ache+f%E1cil&SCap%EDtulo_CID-10=TODAS_AS_CATEGORIAS__&pesqmes6=Digite+o+texto+e+ache+f%E1cil&SLista_Morb__CID-10=194&pesqmes7=Digite+o+texto+e+ache+f%E1cil&pesqmes8=Digite+o+texto+e+ache+f%E1cil&SFaixa_Et%E1ria_2=TODAS_AS_CATEGORIAS__&SCor%2Fra%E7a=TODAS_AS_CATEGORIAS__&formato=table&mostre=Mostra"
 
 incrementos = [
