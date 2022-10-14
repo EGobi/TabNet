@@ -1,3 +1,5 @@
+// Os ids de procedimento mudam conforme o tempo! Cuidado!
+
 requestBody = "SGrupo_procedimento=TODAS_AS_CATEGORIAS__&pesqmes6=Digite+o+texto+e+ache+f%E1cil&SSubgrupo_proced.=TODAS_AS_CATEGORIAS__&pesqmes7=Digite+o+texto+e+ache+f%E1cil&SForma_organiza%E7%E3o=TODAS_AS_CATEGORIAS__&SComplexidade=TODAS_AS_CATEGORIAS__&SFinanciamento=TODAS_AS_CATEGORIAS__&pesqmes10=Digite+o+texto+e+ache+f%E1cil&SRubrica_FAEC=TODAS_AS_CATEGORIAS__&pesqmes11=Digite+o+texto+e+ache+f%E1cil&SRegra_contratual=TODAS_AS_CATEGORIAS__&SNatureza=TODAS_AS_CATEGORIAS__&SRegime=TODAS_AS_CATEGORIAS__&pesqmes14=Digite+o+texto+e+ache+f%E1cil&SNatureza_jur%EDdica=TODAS_AS_CATEGORIAS__&pesqmes15=Digite+o+texto+e+ache+f%E1cil&SEsfera_jur%EDdica=TODAS_AS_CATEGORIAS__&SGest%E3o=TODAS_AS_CATEGORIAS__&formato=table&mostre=Mostra"
 
 // Request body values
@@ -30,9 +32,9 @@ procedimentoNome = {
     2717: "TRATAMENTO CIRÚRGICO DE VARIZES (BILATERAL)",
     2718: "TRATAMENTO CIRÚRGICO DE VARIZES (UNILATERAL)",
 
-    1547: "TRATAMENTO DE VARIZES DOS MEMBROS INFERIORES C/ ULCERA",
-    2088: "TRATAMENTO ESCLEROSANTE NÃO ESTÉTICO DE VARIZES DOS MEMBROS INFERIORES (UNILATERAL)",
-    2089: "TRATAMENTO ESCLEROSANTE NÃO ESTÉTICO DE VARIZES DOS MEMBROS INFERIORES (BILATERAL)"
+    1549: "TRATAMENTO DE VARIZES DOS MEMBROS INFERIORES C/ ULCERA",
+    2090: "TRATAMENTO ESCLEROSANTE NÃO ESTÉTICO DE VARIZES DOS MEMBROS INFERIORES (UNILATERAL)",
+    2091: "TRATAMENTO ESCLEROSANTE NÃO ESTÉTICO DE VARIZES DOS MEMBROS INFERIORES (BILATERAL)"
 }
 
 mesAbbr = {
@@ -147,7 +149,7 @@ function main() {
                 loadTab(procedimentoArg);
                 getValues();
             
-                procedimentoLista = ["1547", "2088", "2089"]
+                procedimentoLista = ["1549", "2090", "2091"]
                 procedimentoId = procedimentoLista[procedimento]
                 //console.log(procedimentoId)
                 if (procedimentoId) {
