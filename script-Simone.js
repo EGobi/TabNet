@@ -15,7 +15,7 @@ incrementos = [
 
 csvLine = `data:text/csv;charset=utf-8,Faixa Etária;Sexo;Ano/mês antendimento;Região;Internações;AIH aprovadas;Valor total;Valor serviços hospitalares;Valor médio AIH;Valor médio intern;Dias permanência;Média permanência;Óbitos;Taxa mortalidade\r\n`;
 
-anos = ["12", "13"/*, "14", "15", "16", "17", "18", "19", "20", "21"*/]
+anos = ["12", "13", "14", "15", "16", "17", "18", "19", "20", "21"]
 meses = ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"]
 regioes = ["1", "2", "3", "4", "5"] // incluir 6? (ignorado/exterior)
 sexos = ["1", "2"] // incluir 3?
