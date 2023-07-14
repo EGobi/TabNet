@@ -4,8 +4,30 @@ csvLine = `data:text/csv;charset=utf-8,Mês;Estado;Município;Quantidade aprovad
 
 arquivoArg = "&Arquivos=qaac0801.dbf"
 
-url = "http://tabnet.datasus.gov.br/cgi/deftohtm.exe?sia/cnv/qa" //qaac.def
+url = "http://tabnet.datasus.gov.br/cgi/tabcgi.exe?sia/cnv/qa" //qaac.def
 
+/*
 anos  = ["08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23"]
 meses = ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"]
 estados = ["ac", "al", "am", "ap", "ba", "ce", "df", "es", "go", "ma", "mt", "ms", "mg", "pa", "pb", "pr", "pe", "pi", "rj", "rn", "rs", "ro", "rs", "sc", "sp", "se", "to"]
+*/
+
+anos = ["22"]
+meses = ["01"]
+estados = ["sp"]
+
+function main() {
+    for (a in anos) {
+        ano = anos[a]
+        for (m in meses) {
+            mes = meses[m]
+            for (e in estados) {
+                estado = estados[e]
+                arquivoArg = `&Arquivos=qa${estado}${ano}${mes}.dbf`
+                console.log(url + estado + ".def/" + requestBody + arquivoArg)
+            }
+        }
+    }
+}
+
+main()
