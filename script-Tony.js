@@ -4,7 +4,7 @@ csvLine = `data:text/csv;charset=utf-8,Ano;Mês;Estado;Município;Quantidade apr
 
 url = "http://tabnet.datasus.gov.br/cgi/tabcgi.exe?sia/cnv/qa"
 
-anos  = ["08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23"]
+anos  = [/*"08", "09", "10", "11", "12", "13", "14", "15", "16", "17", */"18", "19", "20", "21", "22", "23"]
 meses = ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"]
 estados = ["AC", "AL", "AM", "AP", "BA", "CE", "DF", "ES", "GO", "MA", "MT", "MS", "MG", "PA", "PB", "PR", "PE", "PI", "RJ", "RN", "RS", "RO", "RR", "SC", "SP", "SE", "TO"]
 
@@ -27,10 +27,15 @@ function loadTab(url_uf, parameters) {
 }
 
 function getValues() {
-    table = tab.getElementsByTagName("tbody")[0]
-    tableRows = table.getElementsByTagName("tr")
     col_municipio = "-"
     col_qtdaprovada = "0"
+
+    table = tab.getElementsByTagName("tbody")[0]
+    if (table == undefined) {
+        csvLine += `${anos[a]};${meses[m]};${estados[e]};${col_municipio};${col_qtdaprovada}\r\n`;
+        return
+    }
+    tableRows = table.getElementsByTagName("tr")
 
     for (i = 1; i < tableRows.length; i++) { // pula i = 0, já que o total aparece
         col_municipio = tableRows[i].getElementsByTagName("td")[0].innerText.trim() // nessa tabela, precisamos do trim() para remover um \n ao lado do nome do município
