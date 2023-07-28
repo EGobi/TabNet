@@ -8,3 +8,15 @@ anos = [/*"01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"
 
 SUF = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29]
 UF  = ["AC", "AL", "AP", "AM", "BA", "CE", "DF", "ES", "GO", "MA", "MT", "MS", "MG", "PA", "PB", "PR", "PB", "PI", "RJ", "RN", "RS", "RO", "RR", "SC", "SP", "SE", "RO", "EX", "NI"]
+
+STipo_de_atendimento = [1, 2]
+Tipo_de_atendimento = ["AIH", "APAC"]
+
+SSexo = [1, 2, 3]
+Sexo = ["Masculino", "Feminino", "Não informado"]
+
+STipo_de_contratacao = [1, 2, 3, 4, 5] // STipo_de_contrata%E7%E3o
+Tipo_de_contratacao = ["Individual ou Familiar", "Coletivo Empresarial", "Coletivo por adesão", "Coletivo não identificado", "Não Informado"]
+
+SAbrangencia_geog = [1, 2] // SAbrang%EAncia_geog.
+Abrangencia_geog = ["Nacional", "Grupo de Estados"]
