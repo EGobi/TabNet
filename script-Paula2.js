@@ -10,10 +10,12 @@
 ]*/
 
 //requestBodyStart = "Linha=Segmenta%E7%E3o_grupo&Coluna=--N%E3o-Ativa--&Incremento=Atendimentos&"
-requestBodyStart = "Linha=Modalidade&Coluna=--N%E3o-Ativa--&Incremento=Atendimentos&"
+//requestBodyStart = "Linha=Modalidade&Coluna=--N%E3o-Ativa--&Incremento=Atendimentos&"
+requestBodyStart = "Linha=Munic%EDpio&Coluna=--N%E3o-Ativa--&Incremento=Atendimentos&"
+
 requestBodyEnd = "&formato=table&mostre=Mostra"
 
-csvLine = `data:text/csv;charset=utf-8,Ano;Estado;Tipo de atendimento;Sexo;Tipo de contratação;Abrangência geográfica;Segmentação por grupo;Faixa etária;Capítulo CID-10;Modalidade;Quantidade\r\n`
+csvLine = `data:text/csv;charset=utf-8,Ano;Estado;Tipo de atendimento;Sexo;Tipo de contratação;Abrangência geográfica;Segmentação por grupo;Faixa etária;Capítulo CID-10;Modalidade;Município;Quantidade\r\n`
 
 url = `https://www.ans.gov.br/anstabnet/cgi-bin/tabnet?dados/tabnet_res.def`
 
@@ -118,10 +120,11 @@ function main() {
         segmnt = jsonFile[i]["7"]
         faixae = jsonFile[i]["8"]
         capcid = jsonFile[i]["9"]
+        modali = jsonFile[i]["10"]
 
         console.log(ano, estado, tp_atd, sexo, tp_cnt, abrngc
             // adicionar conforme disponibilidade
-            , segmnt, faixae, capcid)
+            , segmnt, faixae, capcid, modali)
 
         var xhr = new XMLHttpRequest();
         var parser = new DOMParser();
@@ -135,7 +138,7 @@ function main() {
         }
 
         //adicionar conforme disponibilidade
-        body = `Arquivos=tb_res_${ano}.dbf&SUF=${estado}&STipo_de_atendimento=${tp_atd}&SSexo=${sexo}&STipo_de_contrata%E7%E3o=${tp_cnt}&SAbrang%EAncia_geog.=${abrngc}&SSegmenta%E7%E3o_grupo=${segmnt}&SFaixa_et%E1ria=${faixae}&SCap%EDtulo_CID-10=${capcid}`
+        body = `Arquivos=tb_res_${ano}.dbf&SUF=${estado}&STipo_de_atendimento=${tp_atd}&SSexo=${sexo}&STipo_de_contrata%E7%E3o=${tp_cnt}&SAbrang%EAncia_geog.=${abrngc}&SSegmenta%E7%E3o_grupo=${segmnt}&SFaixa_et%E1ria=${faixae}&SCap%EDtulo_CID-10=${capcid}&SModalidade=${modali}`
         parameters = `${requestBodyStart}${body}${requestBodyEnd}`
 
         xhr.open("POST", url, false);
@@ -152,11 +155,17 @@ function main() {
         console.log(linhas)
 
         for (j = 2; j < 2 + linhas; j++) {
+            /* *** PARA O RESTANTE ***
             header = tab.querySelectorAll("tr")[j].children[0].innerText.trim()
             modali = Modalidade[header]
+            */
+            /* *** PARA MUNICÍPIO *** */
+            munici = tab.querySelectorAll("tr")[j].children[0].innerText.replace(/\D/g,"")
+            /* */
+
             quantidade = tab.querySelectorAll("tr")[j].children[1].innerText
             //console.log(j, header, Faixa_etaria, faixae, quantidade)
-            csvLine += `${ano};${estado};${tp_atd};${sexo};${tp_cnt};${abrngc};${segmnt};${faixae};${capcid};${modali};${quantidade}`
+            csvLine += `${ano};${estado};${tp_atd};${sexo};${tp_cnt};${abrngc};${segmnt};${faixae};${capcid};${modali};${munici};${quantidade}`
         }
 
         console.log(`Fim da linha ${i}`)
