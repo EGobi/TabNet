@@ -11,7 +11,8 @@
 
 //requestBodyStart = "Linha=Segmenta%E7%E3o_grupo&Coluna=--N%E3o-Ativa--&Incremento=Atendimentos&"
 //requestBodyStart = "Linha=Modalidade&Coluna=--N%E3o-Ativa--&Incremento=Atendimentos&"
-requestBodyStart = "Linha=Munic%EDpio&Coluna=--N%E3o-Ativa--&Incremento=Atendimentos&"
+//requestBodyStart = "Linha=Munic%EDpio&Coluna=--N%E3o-Ativa--&Incremento=Atendimentos&"
+requestBodyStart = "Linha=Especialidade_AIH&Coluna=--N%E3o-Ativa--&Incremento=Atendimentos&"
 
 requestBodyEnd = "&formato=table&mostre=Mostra"
 
@@ -155,22 +156,19 @@ function main() {
         console.log(linhas)
 
         for (j = 2; j < 2 + linhas; j++) {
-            /* *** PARA O RESTANTE ***
+            /* *** PARA O RESTANTE *** */
             header = tab.querySelectorAll("tr")[j].children[0].innerText.trim()
-            modali = Modalidade[header]
-            */
-            /* *** PARA MUNICÍPIO *** */
-            munici = tab.querySelectorAll("tr")[j].children[0].innerText.replace(/\D/g,"")
+            //modali = Modalidade[header]
+            especi = Especialidade_AIH[header]
             /* */
+            /* *** PARA MUNICÍPIO ***
+            munici = tab.querySelectorAll("tr")[j].children[0].innerText.replace(/\D/g,"")
+            */
 
             quantidade = tab.querySelectorAll("tr")[j].children[1].innerText
-            //console.log(j, header, Faixa_etaria, faixae, quantidade)
-            csvLine += `${ano};${estado};${tp_atd};${sexo};${tp_cnt};${abrngc};${segmnt};${faixae};${capcid};${modali};${munici};${quantidade}`
+            csvLine += `${ano};${estado};${tp_atd};${sexo};${tp_cnt};${abrngc};${segmnt};${faixae};${capcid};${modali};${especi};${quantidade}`
         }
 
         console.log(`Fim da linha ${i}`)
     }
-
-
-    //window.open(encodeURI(csvLineExportStep1))
 }
