@@ -11,12 +11,12 @@
 
 //requestBodyStart = "Linha=Segmenta%E7%E3o_grupo&Coluna=--N%E3o-Ativa--&Incremento=Atendimentos&"
 //requestBodyStart = "Linha=Modalidade&Coluna=--N%E3o-Ativa--&Incremento=Atendimentos&"
-//requestBodyStart = "Linha=Munic%EDpio&Coluna=--N%E3o-Ativa--&Incremento=Atendimentos&"
-requestBodyStart = "Linha=Especialidade_AIH&Coluna=--N%E3o-Ativa--&Incremento=Atendimentos&"
+requestBodyStart = "Linha=Munic%EDpio&Coluna=--N%E3o-Ativa--&Incremento=Valor_total&"
+//requestBodyStart = "Linha=Especialidade_AIH&Coluna=--N%E3o-Ativa--&Incremento=Atendimentos&"
 
 requestBodyEnd = "&formato=table&mostre=Mostra"
 
-csvLine = `data:text/csv;charset=utf-8,Ano;Estado;Tipo de atendimento;Sexo;Tipo de contratação;Abrangência geográfica;Segmentação por grupo;Faixa etária;Capítulo CID-10;Modalidade;Município;Quantidade\r\n`
+csvLine = `data:text/csv;charset=utf-8,Ano;Estado;Tipo de atendimento;Sexo;Tipo de contratação;Abrangência geográfica;Segmentação por grupo;Faixa etária;Capítulo CID-10;Modalidade;Município;Valor total\r\n`
 
 url = `https://www.ans.gov.br/anstabnet/cgi-bin/tabnet?dados/tabnet_res.def`
 
@@ -157,16 +157,16 @@ function main() {
 
         for (j = 2; j < 2 + linhas; j++) {
             /* *** PARA O RESTANTE *** */
-            header = tab.querySelectorAll("tr")[j].children[0].innerText.trim()
+            //header = tab.querySelectorAll("tr")[j].children[0].innerText.trim()
             //modali = Modalidade[header]
-            especi = Especialidade_AIH[header]
+            //especi = Especialidade_AIH[header]
             /* */
-            /* *** PARA MUNICÍPIO ***
+            /* *** PARA MUNICÍPIO *** */
             munici = tab.querySelectorAll("tr")[j].children[0].innerText.replace(/\D/g,"")
-            */
+            /* */
 
             quantidade = tab.querySelectorAll("tr")[j].children[1].innerText
-            csvLine += `${ano};${estado};${tp_atd};${sexo};${tp_cnt};${abrngc};${segmnt};${faixae};${capcid};${modali};${especi};${quantidade}`
+            csvLine += `${ano};${estado};${tp_atd};${sexo};${tp_cnt};${abrngc};${segmnt};${faixae};${capcid};${modali};${munici};${quantidade}`
         }
 
         console.log(`Fim da linha ${i}`)
