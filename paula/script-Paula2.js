@@ -121,13 +121,13 @@ function main() {
         abrngc = jsonFile[i]["6"]
         // adicionar conforme disponibilidade
         segmnt = jsonFile[i]["7"]
-        //faixae = jsonFile[i]["8"]
+        faixae = jsonFile[i]["8"]
         //capcid = jsonFile[i]["9"]
         //modali = jsonFile[i]["10"]
 
         console.log(ano, estado, tp_atd, sexo, tp_cnt, abrngc
             // adicionar conforme disponibilidade
-            , segmnt/*, faixae, capcid, modali*/)
+            , segmnt, faixae/*, capcid, modali*/)
 
         var xhr = new XMLHttpRequest();
         var parser = new DOMParser();
@@ -141,7 +141,7 @@ function main() {
         }
 
         //adicionar conforme disponibilidade
-        body = `Arquivos=tb_res_${ano}.dbf&SUF=${estado}&STipo_de_atendimento=${tp_atd}&SSexo=${sexo}&STipo_de_contrata%E7%E3o=${tp_cnt}&SAbrang%EAncia_geog.=${abrngc}&SSegmenta%E7%E3o_grupo=${segmnt}` //&SFaixa_et%E1ria=${faixae}&SCap%EDtulo_CID-10=${capcid}&SModalidade=${modali}`
+        body = `Arquivos=tb_res_${ano}.dbf&SUF=${estado}&STipo_de_atendimento=${tp_atd}&SSexo=${sexo}&STipo_de_contrata%E7%E3o=${tp_cnt}&SAbrang%EAncia_geog.=${abrngc}&SSegmenta%E7%E3o_grupo=${segmnt}&SFaixa_et%E1ria=${faixae}` //&SCap%EDtulo_CID-10=${capcid}&SModalidade=${modali}`
         parameters = `${requestBodyStart}${body}${requestBodyEnd}`
 
         xhr.open("POST", url, false);
@@ -161,7 +161,8 @@ function main() {
             /* *** PARA O RESTANTE *** */
             header = tab.querySelectorAll("tr")[j].children[0].innerText.trim()
             //segmnt = Segmentacao_grupo[header]
-            faixae = Faixa_etaria[header]
+            //faixae = Faixa_etaria[header]
+            capcid = Capitulo_CID10[header]
             //modali = Modalidade[header]
             //especi = Especialidade_AIH[header]
             /* */
@@ -171,7 +172,7 @@ function main() {
 
             quantidade = tab.querySelectorAll("tr")[j].children[1].innerText
             //csvLine += `${ano};${estado};${tp_atd};${sexo};${tp_cnt};${abrngc};${segmnt};${faixae};${capcid};${modali};${munici};${quantidade}`
-            csvLine += `${ano};${estado};${tp_atd};${sexo};${tp_cnt};${abrngc};${segmnt};${faixae};${quantidade}`
+            csvLine += `${ano};${estado};${tp_atd};${sexo};${tp_cnt};${abrngc};${segmnt};${faixae};${capcid};${quantidade}`
         }
 
         console.log(`Fim da linha ${i}`)
