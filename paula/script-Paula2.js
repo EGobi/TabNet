@@ -10,7 +10,8 @@
 ]*/
 
 //requestBodyStart = "Linha=Segmenta%E7%E3o_grupo&Coluna=--N%E3o-Ativa--&Incremento=Atendimentos&"
-requestBodyStart = "Linha=Faixa_et%E1ria&Coluna=--N%E3o-Ativa--&Incremento=Atendimentos&"
+//requestBodyStart = "Linha=Faixa_et%E1ria&Coluna=--N%E3o-Ativa--&Incremento=Atendimentos&"
+requestBodyStart = "Linha=Cap%EDtulo_CID-10&Coluna=--N%E3o-Ativa--&Incremento=Atendimentos&"
 //requestBodyStart = "Linha=Modalidade&Coluna=--N%E3o-Ativa--&Incremento=Atendimentos&"
 //requestBodyStart = "Linha=Munic%EDpio&Coluna=--N%E3o-Ativa--&Incremento=Valor_total&"
 //requestBodyStart = "Linha=Especialidade_AIH&Coluna=--N%E3o-Ativa--&Incremento=Atendimentos&"
