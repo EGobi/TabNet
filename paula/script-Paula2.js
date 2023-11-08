@@ -11,8 +11,8 @@
 
 //requestBodyStart = "Linha=Segmenta%E7%E3o_grupo&Coluna=--N%E3o-Ativa--&Incremento=Atendimentos&"
 //requestBodyStart = "Linha=Faixa_et%E1ria&Coluna=--N%E3o-Ativa--&Incremento=Atendimentos&"
-requestBodyStart = "Linha=Cap%EDtulo_CID-10&Coluna=--N%E3o-Ativa--&Incremento=Atendimentos&"
-//requestBodyStart = "Linha=Modalidade&Coluna=--N%E3o-Ativa--&Incremento=Atendimentos&"
+//requestBodyStart = "Linha=Cap%EDtulo_CID-10&Coluna=--N%E3o-Ativa--&Incremento=Atendimentos&"
+requestBodyStart = "Linha=Modalidade&Coluna=--N%E3o-Ativa--&Incremento=Atendimentos&"
 //requestBodyStart = "Linha=Munic%EDpio&Coluna=--N%E3o-Ativa--&Incremento=Valor_total&"
 //requestBodyStart = "Linha=Especialidade_AIH&Coluna=--N%E3o-Ativa--&Incremento=Atendimentos&"
 
@@ -123,12 +123,12 @@ function main() {
         // adicionar conforme disponibilidade
         segmnt = jsonFile[i]["7"]
         faixae = jsonFile[i]["8"]
-        //capcid = jsonFile[i]["9"]
+        capcid = jsonFile[i]["9"]
         //modali = jsonFile[i]["10"]
 
         console.log(ano, estado, tp_atd, sexo, tp_cnt, abrngc
             // adicionar conforme disponibilidade
-            , segmnt, faixae/*, capcid, modali*/)
+            , segmnt, faixae, capcid/*, modali*/)
 
         var xhr = new XMLHttpRequest();
         var parser = new DOMParser();
@@ -142,7 +142,7 @@ function main() {
         }
 
         //adicionar conforme disponibilidade
-        body = `Arquivos=tb_res_${ano}.dbf&SUF=${estado}&STipo_de_atendimento=${tp_atd}&SSexo=${sexo}&STipo_de_contrata%E7%E3o=${tp_cnt}&SAbrang%EAncia_geog.=${abrngc}&SSegmenta%E7%E3o_grupo=${segmnt}&SFaixa_et%E1ria=${faixae}` //&SCap%EDtulo_CID-10=${capcid}&SModalidade=${modali}`
+        body = `Arquivos=tb_res_${ano}.dbf&SUF=${estado}&STipo_de_atendimento=${tp_atd}&SSexo=${sexo}&STipo_de_contrata%E7%E3o=${tp_cnt}&SAbrang%EAncia_geog.=${abrngc}&SSegmenta%E7%E3o_grupo=${segmnt}&SFaixa_et%E1ria=${faixae}&SCap%EDtulo_CID-10=${capcid}`//&SModalidade=${modali}`
         parameters = `${requestBodyStart}${body}${requestBodyEnd}`
 
         xhr.open("POST", url, false);
@@ -163,8 +163,8 @@ function main() {
             header = tab.querySelectorAll("tr")[j].children[0].innerText.trim()
             //segmnt = Segmentacao_grupo[header]
             //faixae = Faixa_etaria[header]
-            capcid = Capitulo_CID10[header]
-            //modali = Modalidade[header]
+            //capcid = Capitulo_CID10[header]
+            modali = Modalidade[header]
             //especi = Especialidade_AIH[header]
             /* */
             /* *** PARA MUNICÍPIO *** */
@@ -173,7 +173,7 @@ function main() {
 
             quantidade = tab.querySelectorAll("tr")[j].children[1].innerText
             //csvLine += `${ano};${estado};${tp_atd};${sexo};${tp_cnt};${abrngc};${segmnt};${faixae};${capcid};${modali};${munici};${quantidade}`
-            csvLine += `${ano};${estado};${tp_atd};${sexo};${tp_cnt};${abrngc};${segmnt};${faixae};${capcid};${quantidade}`
+            csvLine += `${ano};${estado};${tp_atd};${sexo};${tp_cnt};${abrngc};${segmnt};${faixae};${capcid};${modali};${quantidade}`
         }
 
         console.log(`Fim da linha ${i}`)
