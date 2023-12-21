@@ -1,28 +1,12 @@
-/*jsonFile = [
-    {
-      "Ano": 22,
-      "Estado": 25,
-      "Tipo de atendimento": 1,
-      "Sexo": 2,
-      "Tipo de contratação": 2,
-      "Abrangência geográfica": 1
-    }
-]*/
-
-//requestBodyStart = "Linha=Segmenta%E7%E3o_grupo&Coluna=--N%E3o-Ativa--&Incremento=Atendimentos&"
-//requestBodyStart = "Linha=Faixa_et%E1ria&Coluna=--N%E3o-Ativa--&Incremento=Atendimentos&"
-//requestBodyStart = "Linha=Cap%EDtulo_CID-10&Coluna=--N%E3o-Ativa--&Incremento=Atendimentos&"
+// a linha deve corresponder à coluna que queremos extrair, e o incremento ao valor
 requestBodyStart = "Linha=Modalidade&Coluna=--N%E3o-Ativa--&Incremento=Atendimentos&"
-//requestBodyStart = "Linha=Munic%EDpio&Coluna=--N%E3o-Ativa--&Incremento=Valor_total&"
-//requestBodyStart = "Linha=Especialidade_AIH&Coluna=--N%E3o-Ativa--&Incremento=Atendimentos&"
+//requestBodyStart = "Linha=Modalidade&Coluna=--N%E3o-Ativa--&Incremento=Valor_total&"
 
 requestBodyEnd = "&formato=table&mostre=Mostra"
 
-csvLine = `data:text/csv;charset=utf-8,Ano;Estado;Tipo de atendimento;Sexo;Tipo de contratação;Abrangência geográfica;Segmentação por grupo;Faixa etária;Capítulo CID-10;Modalidade;Município;Valor total\r\n`
+csvLine = `data:text/csv;charset=utf-8,Ano;Estado;Tipo de atendimento;Sexo;Tipo de contratação;Abrangência geográfica;Segmentação por grupo;Faixa etária;Capítulo CID-10;Modalidade;Quantidade\r\n`
 
 url = `https://www.ans.gov.br/anstabnet/cgi-bin/tabnet?dados/tabnet_res.def`
-
-//anos = [/*"01", "02", "03", "04", "05", "06", "07", */"08"/*, "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22"*/]
 
 Segmentacao_grupo = {
     "Ambulatorial": 1,
@@ -120,15 +104,15 @@ function main() {
         sexo   = jsonFile[i]["4"]
         tp_cnt = jsonFile[i]["5"]
         abrngc = jsonFile[i]["6"]
-        // adicionar conforme disponibilidade
         segmnt = jsonFile[i]["7"]
         faixae = jsonFile[i]["8"]
         capcid = jsonFile[i]["9"]
-        //modali = jsonFile[i]["10"]
+        // adicionar conforme disponibilidade no arquivo de entrada
+        modali = jsonFile[i]["10"]
 
-        console.log(ano, estado, tp_atd, sexo, tp_cnt, abrngc
-            // adicionar conforme disponibilidade
-            , segmnt, faixae, capcid/*, modali*/)
+        console.log(ano, estado, tp_atd, sexo, tp_cnt, abrngc, segmnt, faixae, capcid
+            // adicionar conforme disponibilidade no arq. de entr.
+            , modali)
 
         var xhr = new XMLHttpRequest();
         var parser = new DOMParser();
@@ -141,8 +125,8 @@ function main() {
             }
         }
 
-        //adicionar conforme disponibilidade
-        body = `Arquivos=tb_res_${ano}.dbf&SUF=${estado}&STipo_de_atendimento=${tp_atd}&SSexo=${sexo}&STipo_de_contrata%E7%E3o=${tp_cnt}&SAbrang%EAncia_geog.=${abrngc}&SSegmenta%E7%E3o_grupo=${segmnt}&SFaixa_et%E1ria=${faixae}&SCap%EDtulo_CID-10=${capcid}`//&SModalidade=${modali}`
+        //adicionar conforme disponibilidade no arq. de entrada
+        body = `Arquivos=tb_res_${ano}.dbf&SUF=${estado}&STipo_de_atendimento=${tp_atd}&SSexo=${sexo}&STipo_de_contrata%E7%E3o=${tp_cnt}&SAbrang%EAncia_geog.=${abrngc}&SSegmenta%E7%E3o_grupo=${segmnt}&SFaixa_et%E1ria=${faixae}&SCap%EDtulo_CID-10=${capcid}&SModalidade=${modali}`
         parameters = `${requestBodyStart}${body}${requestBodyEnd}`
 
         xhr.open("POST", url, false);
@@ -161,18 +145,15 @@ function main() {
         for (j = 2; j < 2 + linhas; j++) {
             /* *** PARA O RESTANTE *** */
             header = tab.querySelectorAll("tr")[j].children[0].innerText.trim()
-            //segmnt = Segmentacao_grupo[header]
-            //faixae = Faixa_etaria[header]
-            //capcid = Capitulo_CID10[header]
+            // adicionar a coluna que queremos extrair
             modali = Modalidade[header]
-            //especi = Especialidade_AIH[header]
             /* */
             /* *** PARA MUNICÍPIO *** */
             //munici = tab.querySelectorAll("tr")[j].children[0].innerText.replace(/\D/g,"")
             /* */
 
             quantidade = tab.querySelectorAll("tr")[j].children[1].innerText
-            //csvLine += `${ano};${estado};${tp_atd};${sexo};${tp_cnt};${abrngc};${segmnt};${faixae};${capcid};${modali};${munici};${quantidade}`
+            // adicionar a coluna que queremos extrair
             csvLine += `${ano};${estado};${tp_atd};${sexo};${tp_cnt};${abrngc};${segmnt};${faixae};${capcid};${modali};${quantidade}`
         }
 
