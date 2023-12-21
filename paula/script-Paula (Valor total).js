@@ -1,5 +1,5 @@
 // a linha deve corresponder à coluna que queremos extrair, e o incremento ao valor
-requestBodyStart = "Linha=Modalidade&Coluna=--N%E3o-Ativa--&Incremento=Atendimentos&"
+requestBodyStart = "Linha=Modalidade&Coluna=--N%E3o-Ativa--&Incremento=Valor_total&"
 //requestBodyStart = "Linha=Modalidade&Coluna=--N%E3o-Ativa--&Incremento=Valor_total&"
 
 requestBodyEnd = "&formato=table&mostre=Mostra"
