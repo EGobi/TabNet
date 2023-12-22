@@ -144,10 +144,9 @@ function main() {
 
         for (j = 2; j < 2 + linhas; j++) {
             /* *** PARA O RESTANTE *** */
-            header = tab.querySelectorAll("tr")[j].children[0].innerText.trim()
+            //header = tab.querySelectorAll("tr")[j].children[0].innerText.trim()
             // adicionar a coluna que queremos extrair
-            modali = Modalidade[header]
-            /* */
+            //modali = Modalidade[header]
             /* *** PARA MUNICÍPIO *** */
             //munici = tab.querySelectorAll("tr")[j].children[0].innerText.replace(/\D/g,"")
             /* */
