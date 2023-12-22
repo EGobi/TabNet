@@ -151,8 +151,11 @@ function main() {
             /* *** PARA MUNICÍPIO *** */
             //munici = tab.querySelectorAll("tr")[j].children[0].innerText.replace(/\D/g,"")
             /* */
-
-            quantidade = tab.querySelectorAll("tr")[j].children[1].innerText
+            if (tab.querySelector("h2").innerText == "Nenhum registro selecionado") {
+                quantidade = "0\r\n"
+            } else {
+                quantidade = tab.querySelectorAll("tr")[j].children[1].innerText
+            }
             // adicionar a coluna que queremos extrair
             csvLine += `${ano};${estado};${tp_atd};${sexo};${tp_cnt};${abrngc};${segmnt};${faixae};${capcid};${modali};${quantidade}`
         }
