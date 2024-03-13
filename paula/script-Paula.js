@@ -1,11 +1,19 @@
 // a linha deve corresponder à coluna que queremos extrair, e o incremento ao valor
+/*
 linha = "Tipo_de_atendimento"
+linha = "Sexo"
+linha = "Tipo_de_contrata%E7%E3o"
+linha = "Abrang%EAncia_geog."
+linha = "Segmenta%E7%E3o_grupo"
+*/
+linha = "Faixa_et%E1ria"
 incremento = "Atendimentos"
 
 requestBodyStart = `Linha=${linha}&Coluna=--N%E3o-Ativa--&Incremento=${incremento}&`
 requestBodyEnd = "&formato=table&mostre=Mostra"
 
-csvLine = `data:text/csv;charset=utf-8,Ano;Estado;Tipo de atendimento;Sexo;Tipo de contratação;Abrangência geográfica;Segmentação por grupo;Faixa etária;Capítulo CID-10;Modalidade;Valor cobrado\r\n`
+//csvLine = `data:text/csv;charset=utf-8,Ano;Estado;Tipo de atendimento;Sexo;Tipo de contratação;Abrangência geográfica;Segmentação por grupo;Faixa etária;Capítulo CID-10;Modalidade;Valor cobrado\r\n`
+csvLine = `data:text/csv;charset=utf-8,Ano;Estado;Tipo de atendimento;Sexo;Tipo de contratação;Abrangência geográfica;Segmentação por grupo;Faixa etária;Quantidade\r\n`
 
 url = `https://www.ans.gov.br/anstabnet/cgi-bin/tabnet?dados/tabnet_res.def`
 
@@ -13,6 +21,30 @@ Tipo_de_atendimento = {
     "AIH": 1,
     "APAC": 2
 } // STipo_de_atendimento
+
+Sexo = {
+    "Masculino": 1,
+    "Feminino": 2,
+    "Não informado": 3
+} // SSexo
+
+Tipo_de_contratacao = {
+    "Individual ou Familiar": 1,
+    "Coletivo Empresarial": 2,
+    "Coletivo por adesão": 3,
+    "Coletivo não identificado": 4,
+    "Não Informado": 5
+} // STipo_de_contrata%E7%E3o
+
+Abrangencia_geografica = {
+    "Nacional": 1,
+    "Grupo de Estados": 2,
+    "Estadual": 3,
+    "Grupo de Municípios": 4,
+    "Municipal": 5,
+    "Outra": 6,
+    "Não Informado": 7
+} //SAbrang%EAncia_geog.
 
 Segmentacao_grupo = {
     "Ambulatorial": 1,
@@ -23,18 +55,6 @@ Segmentacao_grupo = {
     "Informado incorretamente": 6,
     "Não Informado": 7
 } // SSegmenta%E7%E3o_grupo
-
-Modalidade = {
-    "Autogestão": 1,
-    "Cooperativa Médica": 2,
-    "Filantropia": 3,
-    "Medicina de Grupo": 4,
-    "Seguradora Especializada em Saúde": 5,
-    "Cooperativa Odontológica": 6,
-    "Odontologia de Grupo": 7,
-    "Administradora": 8,
-    "Administradora de Benefícios": 9
-}
 
 Faixa_etaria = {
     "Até 1 ano": 1,
@@ -57,6 +77,18 @@ Faixa_etaria = {
     "80 anos ou mais": 18, 
     "Inconsistente": 19
 } // SFaixa_et%E1ria
+
+Modalidade = {
+    "Autogestão": 1,
+    "Cooperativa Médica": 2,
+    "Filantropia": 3,
+    "Medicina de Grupo": 4,
+    "Seguradora Especializada em Saúde": 5,
+    "Cooperativa Odontológica": 6,
+    "Odontologia de Grupo": 7,
+    "Administradora": 8,
+    "Administradora de Benefícios": 9
+}
 
 Especialidade_AIH = {
     "Cirurgia": 1, 
@@ -105,17 +137,18 @@ function main() {
         ano    = jsonFile[i]["1"]
         ano    = ano.toString().length == 2 ? ano : "0" + ano
         estado = jsonFile[i]["2"]
-        //tp_atd = jsonFile[i]["3"]
-        //sexo   = jsonFile[i]["4"]
-        //tp_cnt = jsonFile[i]["5"]
-        //abrngc = jsonFile[i]["6"]
-        //segmnt = jsonFile[i]["7"]
+        tp_atd = jsonFile[i]["3"]
+        sexo   = jsonFile[i]["4"]
+        tp_cnt = jsonFile[i]["5"]
+        abrngc = jsonFile[i]["6"]
+        segmnt = jsonFile[i]["7"]
         //faixae = jsonFile[i]["8"]
         //capcid = jsonFile[i]["9"]
         //modali = jsonFile[i]["10"]
         // adicionar conforme disponibilidade no arquivo de entrada
 
-        console.log(ano, estado)//tp_atd, sexo, tp_cnt, abrngc, segmnt, faixae, capcid, modali
+        console.log(ano, estado, tp_atd, sexo, tp_cnt, abrngc, segmnt)
+            //tp_atd, sexo, tp_cnt, abrngc, segmnt, faixae, capcid, modali
             // adicionar conforme disponibilidade no arq. de entr.
 
         var xhr = new XMLHttpRequest();
@@ -130,7 +163,8 @@ function main() {
         }
 
         //adicionar conforme disponibilidade no arq. de entrada
-        body = `Arquivos=tb_res_${ano}.dbf&SUF=${estado}`//&STipo_de_atendimento=${tp_atd}&SSexo=${sexo}&STipo_de_contrata%E7%E3o=${tp_cnt}&SAbrang%EAncia_geog.=${abrngc}&SSegmenta%E7%E3o_grupo=${segmnt}&SFaixa_et%E1ria=${faixae}&SCap%EDtulo_CID-10=${capcid}&SModalidade=${modali}`
+        body = `Arquivos=tb_res_${ano}.dbf&SUF=${estado}&STipo_de_atendimento=${tp_atd}&SSexo=${sexo}&STipo_de_contrata%E7%E3o=${tp_cnt}&SAbrang%EAncia_geog.=${abrngc}&SSegmenta%E7%E3o_grupo=${segmnt}`
+        //&STipo_de_atendimento=${tp_atd}&SSexo=${sexo}&STipo_de_contrata%E7%E3o=${tp_cnt}&SAbrang%EAncia_geog.=${abrngc}&SSegmenta%E7%E3o_grupo=${segmnt}&SFaixa_et%E1ria=${faixae}&SCap%EDtulo_CID-10=${capcid}&SModalidade=${modali}`
         parameters = `${requestBodyStart}${body}${requestBodyEnd}`
 
         xhr.open("POST", url, false);
@@ -144,13 +178,19 @@ function main() {
             linhas = 1
         }
 
-        console.log(linhas)
+        //console.log(linhas)
 
         for (j = 2; j < 2 + linhas; j++) {
             /* *** PARA O RESTANTE *** */
             header = tab.querySelectorAll("tr")[j].children[0].innerText.trim()
             // adicionar a coluna que queremos extrair
-            modali = Tipo_de_atendimento[header]
+            //tp_atd = Tipo_de_atendimento[header]
+            //sexo = Sexo[header]
+            //tp_cnt = Tipo_de_contratacao[header]
+            //abrngc = Abrangencia_geografica[header]
+            //segmnt = Segmentacao_grupo[header]
+            faixae = Faixa_etaria[header]
+            //modali = Modalidade[header]
             /* */
             /* *** PARA MUNICÍPIO *** */
             //munici = tab.querySelectorAll("tr")[j].children[0].innerText.replace(/\D/g,"")
@@ -158,7 +198,7 @@ function main() {
 
             quantidade = tab.querySelectorAll("tr")[j].children[1].innerText
             // adicionar a coluna que queremos extrair
-            csvLine += `${ano};${estado};${tp_atd}`//;${sexo};${tp_cnt};${abrngc};${segmnt};${faixae};${capcid};${modali};${quantidade}`
+            csvLine += `${ano};${estado};${tp_atd};${sexo};${tp_cnt};${abrngc};${segmnt};${faixae};${quantidade}`//;${sexo};${tp_cnt};${abrngc};${segmnt};${faixae};${capcid};${modali};${quantidade}`
         }
 
         console.log(`Fim da linha ${i}`)
