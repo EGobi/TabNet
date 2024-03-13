@@ -1,142 +1,166 @@
-// requestBodyStart = "Linha=Ano&Coluna=--N%E3o-Ativa--&Incremento=Atendimentos&"
-// requestBodyStart = "Linha=Ano&Coluna=--N%E3o-Ativa--&Incremento=Valor_total&"
-// requestBodyStart = "Linha=Ano&Coluna=--N%E3o-Ativa--&Incremento=Valor_m%E9dio&"
- requestBodyStart = "Linha=Ano&Coluna=--N%E3o-Ativa--&Incremento=Valor_cobrado&"
-// requestBodyStart = "Linha=Ano&Coluna=--N%E3o-Ativa--&Incremento=Valor_pago&"
-// requestBodyStart = "Linha=Ano&Coluna=--N%E3o-Ativa--&Incremento=Quantidade_cobrada&"
-// requestBodyStart = "Linha=Ano&Coluna=--N%E3o-Ativa--&Incremento=Quantidade_paga&"
-// requestBodyStart = "Linha=Ano&Coluna=--N%E3o-Ativa--&Incremento=Dias_de_perman%EAncia_AIH&"
-// requestBodyStart = "Linha=Ano&Coluna=--N%E3o-Ativa--&Incremento=M%E9dia_de_perman%EAncia_AIH&"
+// a linha deve corresponder à coluna que queremos extrair, e o incremento ao valor
+linha = "Tipo_de_atendimento"
+incremento = "Atendimentos"
+
+requestBodyStart = `Linha=${linha}&Coluna=--N%E3o-Ativa--&Incremento=${incremento}&`
 requestBodyEnd = "&formato=table&mostre=Mostra"
+
+csvLine = `data:text/csv;charset=utf-8,Ano;Estado;Tipo de atendimento;Sexo;Tipo de contratação;Abrangência geográfica;Segmentação por grupo;Faixa etária;Capítulo CID-10;Modalidade;Valor cobrado\r\n`
 
 url = `https://www.ans.gov.br/anstabnet/cgi-bin/tabnet?dados/tabnet_res.def`
 
-anos = [/*"01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", */"20"/*, "22"*/]
+Tipo_de_atendimento = {
+    "AIH": 1,
+    "APAC": 2
+} // STipo_de_atendimento
 
-SUF = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29]
-UF  = ["AC", "AL", "AP", "AM", "BA", "CE", "DF", "ES", "GO", "MA", "MT", "MS", "MG", "PA", "PB", "PR", "PE", "PI", "RJ", "RN", "RS", "RO", "RR", "SC", "SP", "SE", "TO", "EX", "NI"]
+Segmentacao_grupo = {
+    "Ambulatorial": 1,
+    "Hospitalar": 2,
+    "Hospitalar e Ambulatorial": 3,
+    "Referência": 4,
+    "Odontológico": 5,
+    "Informado incorretamente": 6,
+    "Não Informado": 7
+} // SSegmenta%E7%E3o_grupo
 
-STipo_de_atendimento = [1, 2]
-Tipo_de_atendimento = ["AIH", "APAC"]
+Modalidade = {
+    "Autogestão": 1,
+    "Cooperativa Médica": 2,
+    "Filantropia": 3,
+    "Medicina de Grupo": 4,
+    "Seguradora Especializada em Saúde": 5,
+    "Cooperativa Odontológica": 6,
+    "Odontologia de Grupo": 7,
+    "Administradora": 8,
+    "Administradora de Benefícios": 9
+}
 
-SSexo = [1, 2, 3]
-Sexo = ["Masculino", "Feminino", "Não informado"]
+Faixa_etaria = {
+    "Até 1 ano": 1,
+    "1 a 4 anos": 2,
+    "5 a 9 anos": 3,
+    "10 a 14 anos": 4,
+    "15 a 19 anos": 5,
+    "20 a 24 anos": 6,
+    "25 a 29 anos": 7,
+    "30 a 34 anos": 8,
+    "35 a 39 anos": 9,
+    "40 a 44 anos": 10, 
+    "45 a 49 anos": 11,
+    "50 a 54 anos": 12, 
+    "55 a 59 anos": 13, 
+    "60 a 64 anos": 14, 
+    "65 a 69 anos": 15, 
+    "70 a 74 anos": 16, 
+    "75 a 79 anos": 17, 
+    "80 anos ou mais": 18, 
+    "Inconsistente": 19
+} // SFaixa_et%E1ria
 
-STipo_de_contratacao = [1, 2, 3, 4, 5] // STipo_de_contrata%E7%E3o
-Tipo_de_contratacao = ["Individual ou Familiar", "Coletivo Empresarial", "Coletivo por adesão", "Coletivo não identificado", "Não Informado"]
+Especialidade_AIH = {
+    "Cirurgia": 1, 
+    "Obstetrícia": 2, 
+    "Clínica Médica": 3, 
+    "Pacientes sob cuidados prolongado": 4, 
+    "Psiquiatria": 5, 
+    "Tisiologia": 6, 
+    "Pediatria": 7, 
+    "Reabilitação": 8, 
+    "Psiquiatria em hospital dia": 9, 
+    "Não informado": 10
+}
 
-SAbrangencia_geog = [1, 2, 3, 4, 5, 6, 7] // SAbrang%EAncia_geog.
-Abrangencia_geog = ["Nacional", "Grupo de Estados", "Estadual", "Grupo de Municípios", "Municipal", "Outra", "Não Informado"]
+SCapitulo_CID10 = "" // SCap%EDtulo_CID-10
+Capitulo_CID10 = {
+    "I.   Algumas doenças infecciosas e parasitárias": 1, 
+    "II.  Neoplasias (tumores)": 2,
+    "III. Doenças sangue órgãos hemat e transt imunitár": 3, 
+    "IV.  Doenças endócrinas nutricionais e metabólicas": 4, 
+    "V.   Transtornos mentais e comportamentais": 5, 
+    "VI.  Doenças do sistema nervoso": 6, 
+    "VII. Doenças do olho e anexos": 7, 
+    "VIII.Doenças do ouvido e da apófise mastóide": 8, 
+    "IX.  Doenças do aparelho circulatório": 9, 
+    "X.   Doenças do aparelho respiratório": 10, 
+    "XI.  Doenças do aparelho digestivo": 11, 
+    "XII. Doenças da pele e do tecido subcutâneo": 12, 
+    "XIII.Doenças sist osteomuscular e tec conjuntivo": 13,
+    "XIV. Doenças do aparelho geniturinário": 14, 
+    "XV.  Gravidez parto e puerpério": 15, 
+    "XVI. Algumas afec originadas no período perinatal": 16,
+    "XVII.Malf cong deformid e anomalias cromossômicas": 17, 
+    "XVIII.Sint sinais e achad anorm ex clín e laborat": 18,
+    "XIX. Lesões enven e alg out conseq causas externas": 19, 
+    "XX.  Causas externas de morbidade e mortalidade": 20,
+    "XXI. Contatos com serviços de saúde": 21, 
+    "XXII.Códigos para propósitos especiais": 22, 
+    "U99  CID 10ª Revisão não disponível": 23,
+    "Ignorado": 24, 
+    "Não informado": 25
+}
 
 function main() {
-    for (a in anos) {
-        ano = anos[a]
-        arquivoArg = `Arquivos=tb_res_${ano}.dbf`
-        
-        for (u in UF) {
-            estado = SUF[u]
-            if (check(`${arquivoArg}&SUF=${SUF[u]}`).checkString == "no") {
-                console.log("Pulando", UF[u])
-                continue
-            }
+    for (i in jsonFile) {
+        ano    = jsonFile[i]["1"]
+        ano    = ano.toString().length == 2 ? ano : "0" + ano
+        estado = jsonFile[i]["2"]
+        //tp_atd = jsonFile[i]["3"]
+        //sexo   = jsonFile[i]["4"]
+        //tp_cnt = jsonFile[i]["5"]
+        //abrngc = jsonFile[i]["6"]
+        //segmnt = jsonFile[i]["7"]
+        //faixae = jsonFile[i]["8"]
+        //capcid = jsonFile[i]["9"]
+        //modali = jsonFile[i]["10"]
+        // adicionar conforme disponibilidade no arquivo de entrada
 
-            for (tA in Tipo_de_atendimento) {
-                atendimento = STipo_de_atendimento[tA]
-                if (check(`${arquivoArg}&SUF=${SUF[u]}&STipo_de_atendimento=${STipo_de_atendimento[tA]}`).checkString == "no") {
-                    console.log("Pulando", Tipo_de_atendimento[tA])
-                    continue
-                }
+        console.log(ano, estado)//tp_atd, sexo, tp_cnt, abrngc, segmnt, faixae, capcid, modali
+            // adicionar conforme disponibilidade no arq. de entr.
 
-                for (s in Sexo) {
-                    sexo = SSexo[s]
-                    if (check(`${arquivoArg}&SUF=${SUF[u]}&STipo_de_atendimento=${STipo_de_atendimento[tA]}\
-&SSexo=${SSexo[s]}`).checkString == "no") {
-                        console.log("Pulando", Sexo[s])
-                        continue
-                    }
+        var xhr = new XMLHttpRequest();
+        var parser = new DOMParser();
 
-                    for (tC in Tipo_de_contratacao) {
-                        contratacao = STipo_de_contratacao[tC]
-                        if (check(`${arquivoArg}&SUF=${SUF[u]}&STipo_de_atendimento=${STipo_de_atendimento[tA]}\
-&SSexo=${SSexo[s]}&STipo_de_contrata%E7%E3o=${STipo_de_contratacao[tC]}`).checkString == "no") {
-                            console.log("Pulando", Tipo_de_contratacao[tC])
-                            continue
-                        }
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState == 4 && xhr.status == 200) {
 
-                        for (aG in Abrangencia_geog) {
-                            abrangencia = SAbrangencia_geog[aG]
-                            c = check(`${arquivoArg}&SUF=${SUF[u]}&STipo_de_atendimento=${STipo_de_atendimento[tA]}&SSexo=${SSexo[s]}&STipo_de_contrata%E7%E3o=${STipo_de_contratacao[tC]}&SAbrang%EAncia_geog.=${SAbrangencia_geog[aG]}`)
-                            if (c.checkString == "no") {
-                                console.log("Pulando", Abrangencia_geog[aG])
-                                continue
-                            }
-
-                            // aqui, podemos reunir todos os resultados e exportar para uma tabela
-
-                            exportStep1(ano, estado, atendimento, sexo, contratacao, abrangencia, c.quantidade)
-/*
-                            for (sG in Segmentacao_grupo) {
-                                segmentacao = SSegmentacao_grupo[sG]
-                                if (check(`${arquivoArg}&SUF=${SUF[u]}&STipo_de_atendimento=${STipo_de_atendimento[tA]}\
-&SSexo=${SSexo[s]}&STipo_de_contrata%E7%E3o=${STipo_de_contratacao[tC]}&SAbrang%EAncia_geog.=${SAbrangencia_geog[aG]}\
-&SSegmenta%E7%E3o_grupo=${SSegmentacao_grupo[sG]}`).checkString == "no") {
-                                    console.log("Pulando", Segmentacao_grupo[sG])
-                                    continue
-                                }
-                            }
-                            */
-                        }
-                    }
-                }
+            } else if (xhr.readyState == 4) {
+                console.log("HTTP returned error code", xhr.status)
             }
         }
-    }
 
-    window.open(encodeURI(csvLine))
-}
+        //adicionar conforme disponibilidade no arq. de entrada
+        body = `Arquivos=tb_res_${ano}.dbf&SUF=${estado}`//&STipo_de_atendimento=${tp_atd}&SSexo=${sexo}&STipo_de_contrata%E7%E3o=${tp_cnt}&SAbrang%EAncia_geog.=${abrngc}&SSegmenta%E7%E3o_grupo=${segmnt}&SFaixa_et%E1ria=${faixae}&SCap%EDtulo_CID-10=${capcid}&SModalidade=${modali}`
+        parameters = `${requestBodyStart}${body}${requestBodyEnd}`
 
-function check(body) {
-    var xhr = new XMLHttpRequest();
-    var parser = new DOMParser();
+        xhr.open("POST", url, false);
+        xhr.send(parameters);
 
-    xhr.onreadystatechange = function() {
-        if (xhr.readyState == 4 && xhr.status == 200) {
+        tab = parser.parseFromString(xhr.response, "text/html")
 
-        } else if (xhr.readyState == 4) {
-            console.log("HTTP returned error code", xhr.status)
+        linhas = tab.querySelectorAll("tr").length - 3
+
+        if (linhas < 1) {
+            linhas = 1
         }
-    }
 
-    parameters = `${requestBodyStart}${body}${requestBodyEnd}`
+        console.log(linhas)
 
-    xhr.open("POST", url, false);
-    xhr.send(parameters);
+        for (j = 2; j < 2 + linhas; j++) {
+            /* *** PARA O RESTANTE *** */
+            header = tab.querySelectorAll("tr")[j].children[0].innerText.trim()
+            // adicionar a coluna que queremos extrair
+            modali = Tipo_de_atendimento[header]
+            /* */
+            /* *** PARA MUNICÍPIO *** */
+            //munici = tab.querySelectorAll("tr")[j].children[0].innerText.replace(/\D/g,"")
+            /* */
 
-    tab = parser.parseFromString(xhr.response, "text/html")
+            quantidade = tab.querySelectorAll("tr")[j].children[1].innerText
+            // adicionar a coluna que queremos extrair
+            csvLine += `${ano};${estado};${tp_atd}`//;${sexo};${tp_cnt};${abrngc};${segmnt};${faixae};${capcid};${modali};${quantidade}`
+        }
 
-    if (tab.querySelector("h2").innerText == "Nenhum registro selecionado") {
-        return {checkString: "no"}
-    } else if (tab.querySelector("h2").innerText == "Atendimentos de beneficiários no SUS") {
-        return {checkString: "yes", quantidade: tab.querySelectorAll("td")[0].innerText} //no browser, precisar mudar para ("td")[8]
-    } else {
-        return {checkString: "what?"}
+        console.log(`Fim da linha ${i}`)
     }
 }
-//`data:text/csv;charset=utf-8,Ano;Estado;Tipo de atendimento;Sexo;Tipo de contratação;Abrangência geográfica;Quantidade\r\n`;
-
-csvLine = `data:text/csv;charset=utf-8,Ano;Estado;Tipo de atendimento;Sexo;Tipo de contratação;Abrangência geográfica;Valor total\r\n`;
-
-function exportStep1(ano, estado, atendimento, sexo, contratacao, abrangencia, quantidade) {
-    csvLine += `${ano};${estado};${atendimento};${sexo};${contratacao};${abrangencia};${quantidade}`
-}
-
-
-
-
-/*
-    parameters = requestBodyStart + arquivoArg + requestBodyEnd
-
-                console.log(u, t)
-                //loadTab(url, parameters);
-                //getValues();
-                */
