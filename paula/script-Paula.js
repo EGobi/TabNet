@@ -5,15 +5,17 @@ linha = "Sexo"
 linha = "Tipo_de_contrata%E7%E3o"
 linha = "Abrang%EAncia_geog."
 linha = "Segmenta%E7%E3o_grupo"
-*/
 linha = "Faixa_et%E1ria"
+linha = "Cap%EDtulo_CID-10"
+*/
+linha = "Modalidade"
 incremento = "Atendimentos"
 
 requestBodyStart = `Linha=${linha}&Coluna=--N%E3o-Ativa--&Incremento=${incremento}&`
 requestBodyEnd = "&formato=table&mostre=Mostra"
 
 //csvLine = `data:text/csv;charset=utf-8,Ano;Estado;Tipo de atendimento;Sexo;Tipo de contratação;Abrangência geográfica;Segmentação por grupo;Faixa etária;Capítulo CID-10;Modalidade;Valor cobrado\r\n`
-csvLine = `data:text/csv;charset=utf-8,Ano;Estado;Tipo de atendimento;Sexo;Tipo de contratação;Abrangência geográfica;Segmentação por grupo;Faixa etária;Quantidade\r\n`
+csvLine = `data:text/csv;charset=utf-8,Ano;Estado;Tipo de atendimento;Sexo;Tipo de contratação;Abrangência geográfica;Segmentação por grupo;Faixa etária;Capítulo CID-10;Modalidade;Quantidade\r\n`
 
 url = `https://www.ans.gov.br/anstabnet/cgi-bin/tabnet?dados/tabnet_res.def`
 
@@ -78,31 +80,6 @@ Faixa_etaria = {
     "Inconsistente": 19
 } // SFaixa_et%E1ria
 
-Modalidade = {
-    "Autogestão": 1,
-    "Cooperativa Médica": 2,
-    "Filantropia": 3,
-    "Medicina de Grupo": 4,
-    "Seguradora Especializada em Saúde": 5,
-    "Cooperativa Odontológica": 6,
-    "Odontologia de Grupo": 7,
-    "Administradora": 8,
-    "Administradora de Benefícios": 9
-}
-
-Especialidade_AIH = {
-    "Cirurgia": 1, 
-    "Obstetrícia": 2, 
-    "Clínica Médica": 3, 
-    "Pacientes sob cuidados prolongado": 4, 
-    "Psiquiatria": 5, 
-    "Tisiologia": 6, 
-    "Pediatria": 7, 
-    "Reabilitação": 8, 
-    "Psiquiatria em hospital dia": 9, 
-    "Não informado": 10
-}
-
 SCapitulo_CID10 = "" // SCap%EDtulo_CID-10
 Capitulo_CID10 = {
     "I.   Algumas doenças infecciosas e parasitárias": 1, 
@@ -132,6 +109,31 @@ Capitulo_CID10 = {
     "Não informado": 25
 }
 
+Modalidade = {
+    "Autogestão": 1,
+    "Cooperativa Médica": 2,
+    "Filantropia": 3,
+    "Medicina de Grupo": 4,
+    "Seguradora Especializada em Saúde": 5,
+    "Cooperativa Odontológica": 6,
+    "Odontologia de Grupo": 7,
+    "Administradora": 8,
+    "Administradora de Benefícios": 9
+}
+
+Especialidade_AIH = {
+    "Cirurgia": 1, 
+    "Obstetrícia": 2, 
+    "Clínica Médica": 3, 
+    "Pacientes sob cuidados prolongado": 4, 
+    "Psiquiatria": 5, 
+    "Tisiologia": 6, 
+    "Pediatria": 7, 
+    "Reabilitação": 8, 
+    "Psiquiatria em hospital dia": 9, 
+    "Não informado": 10
+}
+
 function main() {
     for (i in jsonFile) {
         ano    = jsonFile[i]["1"]
@@ -142,12 +144,12 @@ function main() {
         tp_cnt = jsonFile[i]["5"]
         abrngc = jsonFile[i]["6"]
         segmnt = jsonFile[i]["7"]
-        //faixae = jsonFile[i]["8"]
-        //capcid = jsonFile[i]["9"]
+        faixae = jsonFile[i]["8"]
+        capcid = jsonFile[i]["9"]
         //modali = jsonFile[i]["10"]
         // adicionar conforme disponibilidade no arquivo de entrada
 
-        console.log(ano, estado, tp_atd, sexo, tp_cnt, abrngc, segmnt)
+        console.log(ano, estado, tp_atd, sexo, tp_cnt, abrngc, segmnt, faixae, capcid)
             //tp_atd, sexo, tp_cnt, abrngc, segmnt, faixae, capcid, modali
             // adicionar conforme disponibilidade no arq. de entr.
 
@@ -163,7 +165,7 @@ function main() {
         }
 
         //adicionar conforme disponibilidade no arq. de entrada
-        body = `Arquivos=tb_res_${ano}.dbf&SUF=${estado}&STipo_de_atendimento=${tp_atd}&SSexo=${sexo}&STipo_de_contrata%E7%E3o=${tp_cnt}&SAbrang%EAncia_geog.=${abrngc}&SSegmenta%E7%E3o_grupo=${segmnt}`
+        body = `Arquivos=tb_res_${ano}.dbf&SUF=${estado}&STipo_de_atendimento=${tp_atd}&SSexo=${sexo}&STipo_de_contrata%E7%E3o=${tp_cnt}&SAbrang%EAncia_geog.=${abrngc}&SSegmenta%E7%E3o_grupo=${segmnt}&SFaixa_et%E1ria=${faixae}&SCap%EDtulo_CID-10=${capcid}`
         //&STipo_de_atendimento=${tp_atd}&SSexo=${sexo}&STipo_de_contrata%E7%E3o=${tp_cnt}&SAbrang%EAncia_geog.=${abrngc}&SSegmenta%E7%E3o_grupo=${segmnt}&SFaixa_et%E1ria=${faixae}&SCap%EDtulo_CID-10=${capcid}&SModalidade=${modali}`
         parameters = `${requestBodyStart}${body}${requestBodyEnd}`
 
@@ -189,8 +191,9 @@ function main() {
             //tp_cnt = Tipo_de_contratacao[header]
             //abrngc = Abrangencia_geografica[header]
             //segmnt = Segmentacao_grupo[header]
-            faixae = Faixa_etaria[header]
-            //modali = Modalidade[header]
+            //faixae = Faixa_etaria[header]
+            //capcid = Capitulo_CID10[header]
+            modali = Modalidade[header]
             /* */
             /* *** PARA MUNICÍPIO *** */
             //munici = tab.querySelectorAll("tr")[j].children[0].innerText.replace(/\D/g,"")
@@ -198,7 +201,7 @@ function main() {
 
             quantidade = tab.querySelectorAll("tr")[j].children[1].innerText
             // adicionar a coluna que queremos extrair
-            csvLine += `${ano};${estado};${tp_atd};${sexo};${tp_cnt};${abrngc};${segmnt};${faixae};${quantidade}`//;${sexo};${tp_cnt};${abrngc};${segmnt};${faixae};${capcid};${modali};${quantidade}`
+            csvLine += `${ano};${estado};${tp_atd};${sexo};${tp_cnt};${abrngc};${segmnt};${faixae};${capcid};${modali};${quantidade}`//;${sexo};${tp_cnt};${abrngc};${segmnt};${faixae};${capcid};${modali};${quantidade}`
         }
 
         console.log(`Fim da linha ${i}`)
