@@ -179,34 +179,37 @@ function main() {
 
         tab = parser.parseFromString(xhr.response, "text/html")
 
-        linhas = tab.querySelectorAll("tr").length - 3
+        if (tab.body.children[2].innerText == "Nenhum registro selecionado") {
+            quantidade = 0;
+            csvLine += `${ano};${estado};${tp_atd};${sexo};${tp_cnt};${abrngc};${segmnt};${faixae};${capcid};${modali};${quantidade}`;
+        } else {
+            linhas = tab.querySelectorAll("tr").length - 3
 
-        if (linhas < 1) {
-            linhas = 1
-        }
-
-        //console.log(linhas)
-
-        for (j = 2; j < 2 + linhas; j++) {
-            /* *** PARA O RESTANTE *** */
-            header = tab.querySelectorAll("tr")[j].children[0].innerText.trim()
-            // adicionar a coluna que queremos extrair
-            //tp_atd = Tipo_de_atendimento[header]
-            //sexo = Sexo[header]
-            //tp_cnt = Tipo_de_contratacao[header]
-            //abrngc = Abrangencia_geografica[header]
-            //segmnt = Segmentacao_grupo[header]
-            //faixae = Faixa_etaria[header]
-            //capcid = Capitulo_CID10[header]
-            modali = Modalidade[header]
-            /* */
-            /* *** PARA MUNICÍPIO *** */
-            //munici = tab.querySelectorAll("tr")[j].children[0].innerText.replace(/\D/g,"")
-            /* */
-
-            quantidade = tab.querySelectorAll("tr")[j].children[1].innerText
-            // adicionar a coluna que queremos extrair
-            csvLine += `${ano};${estado};${tp_atd};${sexo};${tp_cnt};${abrngc};${segmnt};${faixae};${capcid};${modali};${quantidade}`//;${sexo};${tp_cnt};${abrngc};${segmnt};${faixae};${capcid};${modali};${quantidade}`
+            if (linhas < 1) {
+                linhas = 1
+            }
+    
+            for (j = 2; j < 2 + linhas; j++) {
+                /* *** PARA O RESTANTE *** */
+                header = tab.querySelectorAll("tr")[j].children[0].innerText.trim()
+                // adicionar a coluna que queremos extrair
+                //tp_atd = Tipo_de_atendimento[header]
+                //sexo = Sexo[header]
+                //tp_cnt = Tipo_de_contratacao[header]
+                //abrngc = Abrangencia_geografica[header]
+                //segmnt = Segmentacao_grupo[header]
+                //faixae = Faixa_etaria[header]
+                //capcid = Capitulo_CID10[header]
+                modali = Modalidade[header]
+                /* */
+                /* *** PARA MUNICÍPIO *** */
+                //munici = tab.querySelectorAll("tr")[j].children[0].innerText.replace(/\D/g,"")
+                /* */
+    
+                quantidade = tab.querySelectorAll("tr")[j].children[1].innerText
+                // adicionar a coluna que queremos extrair
+                csvLine += `${ano};${estado};${tp_atd};${sexo};${tp_cnt};${abrngc};${segmnt};${faixae};${capcid};${modali};${quantidade}`//;${sexo};${tp_cnt};${abrngc};${segmnt};${faixae};${capcid};${modali};${quantidade}`
+            }
         }
 
         console.log(`Fim da linha ${i}`)
