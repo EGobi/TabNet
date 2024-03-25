@@ -12,8 +12,9 @@ linha = "Modalidade"
 /*
 incremento = "Atendimentos"
 incremento = "Valor_total"
-*/
 incremento = "Valor_m%E9dio"
+*/
+incremento = "Valor_cobrado"
 
 requestBodyStart = `Linha=${linha}&Coluna=--N%E3o-Ativa--&Incremento=${incremento}&`
 requestBodyEnd = "&formato=table&mostre=Mostra"
