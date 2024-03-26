@@ -8,34 +8,34 @@ linha = "Segmenta%E7%E3o_grupo"
 linha = "Faixa_et%E1ria"
 linha = "Cap%EDtulo_CID-10"
 */
-linha = "Modalidade"
+const linha = 'Modalidade'
 /*
 incremento = "Atendimentos"
 incremento = "Valor_total"
 incremento = "Valor_m%E9dio"
 */
-incremento = "Valor_cobrado"
+const incremento = 'Valor_cobrado'
 
-requestBodyStart = `Linha=${linha}&Coluna=--N%E3o-Ativa--&Incremento=${incremento}&`
-requestBodyEnd = "&formato=table&mostre=Mostra"
+const requestBodyStart = `Linha=${linha}&Coluna=--N%E3o-Ativa--&Incremento=${incremento}&`
+const requestBodyEnd = '&formato=table&mostre=Mostra'
 
-//csvLine = `data:text/csv;charset=utf-8,Ano;Estado;Tipo de atendimento;Sexo;Tipo de contratação;Abrangência geográfica;Segmentação por grupo;Faixa etária;Capítulo CID-10;Modalidade;Valor cobrado\r\n`
-csvLine = `data:text/csv;charset=utf-8,Ano;Estado;Tipo de atendimento;Sexo;Tipo de contratação;Abrangência geográfica;Segmentação por grupo;Faixa etária;Capítulo CID-10;Modalidade;Quantidade\r\n`
+// csvLine = `data:text/csv;charset=utf-8,Ano;Estado;Tipo de atendimento;Sexo;Tipo de contratação;Abrangência geográfica;Segmentação por grupo;Faixa etária;Capítulo CID-10;Modalidade;Valor cobrado\r\n`
+let csvLine = 'data:text/csv;charset=utf-8,Ano;Estado;Tipo de atendimento;Sexo;Tipo de contratação;Abrangência geográfica;Segmentação por grupo;Faixa etária;Capítulo CID-10;Modalidade;Quantidade\r\n'
 
-url = `https://www.ans.gov.br/anstabnet/cgi-bin/tabnet?dados/tabnet_res.def`
+const url = 'https://www.ans.gov.br/anstabnet/cgi-bin/tabnet?dados/tabnet_res.def'
 
-Tipo_de_atendimento = {
+const Tipo_de_atendimento = {
     "AIH": 1,
     "APAC": 2
 } // STipo_de_atendimento
 
-Sexo = {
+const Sexo = {
     "Masculino": 1,
     "Feminino": 2,
     "Não informado": 3
 } // SSexo
 
-Tipo_de_contratacao = {
+const Tipo_de_contratacao = {
     "Individual ou Familiar": 1,
     "Coletivo Empresarial": 2,
     "Coletivo por adesão": 3,
@@ -43,7 +43,7 @@ Tipo_de_contratacao = {
     "Não Informado": 5
 } // STipo_de_contrata%E7%E3o
 
-Abrangencia_geografica = {
+const Abrangencia_geografica = {
     "Nacional": 1,
     "Grupo de Estados": 2,
     "Estadual": 3,
@@ -53,7 +53,7 @@ Abrangencia_geografica = {
     "Não Informado": 7
 } //SAbrang%EAncia_geog.
 
-Segmentacao_grupo = {
+const Segmentacao_grupo = {
     "Ambulatorial": 1,
     "Hospitalar": 2,
     "Hospitalar e Ambulatorial": 3,
@@ -63,7 +63,7 @@ Segmentacao_grupo = {
     "Não Informado": 7
 } // SSegmenta%E7%E3o_grupo
 
-Faixa_etaria = {
+const Faixa_etaria = {
     "Até 1 ano": 1,
     "1 a 4 anos": 2,
     "5 a 9 anos": 3,
@@ -85,8 +85,8 @@ Faixa_etaria = {
     "Inconsistente": 19
 } // SFaixa_et%E1ria
 
-SCapitulo_CID10 = "" // SCap%EDtulo_CID-10
-Capitulo_CID10 = {
+const SCapitulo_CID10 = "" // SCap%EDtulo_CID-10
+const Capitulo_CID10 = {
     "I.   Algumas doenças infecciosas e parasitárias": 1, 
     "II.  Neoplasias (tumores)": 2,
     "III. Doenças sangue órgãos hemat e transt imunitár": 3, 
@@ -114,7 +114,7 @@ Capitulo_CID10 = {
     "Não informado": 25
 }
 
-Modalidade = {
+const Modalidade = {
     "Autogestão": 1,
     "Cooperativa Médica": 2,
     "Filantropia": 3,
@@ -126,7 +126,7 @@ Modalidade = {
     "Administradora de Benefícios": 9
 }
 
-Especialidade_AIH = {
+const Especialidade_AIH = {
     "Cirurgia": 1, 
     "Obstetrícia": 2, 
     "Clínica Médica": 3, 
@@ -140,78 +140,78 @@ Especialidade_AIH = {
 }
 
 function main() {
-    for (i in jsonFile) {
-        ano    = jsonFile[i]["1"]
-        ano    = ano.toString().length == 2 ? ano : "0" + ano
-        estado = jsonFile[i]["2"]
-        tp_atd = jsonFile[i]["3"]
-        sexo   = jsonFile[i]["4"]
-        tp_cnt = jsonFile[i]["5"]
-        abrngc = jsonFile[i]["6"]
-        segmnt = jsonFile[i]["7"]
-        faixae = jsonFile[i]["8"]
-        capcid = jsonFile[i]["9"]
-        //modali = jsonFile[i]["10"]
-        // adicionar conforme disponibilidade no arquivo de entrada
+  for (const i in jsonFile) {
+    ano    = jsonFile[i]["1"]
+    ano    = ano.toString().length == 2 ? ano : "0" + ano
+    estado = jsonFile[i]["2"]
+    tp_atd = jsonFile[i]["3"]
+    sexo   = jsonFile[i]["4"]
+    tp_cnt = jsonFile[i]["5"]
+    abrngc = jsonFile[i]["6"]
+    segmnt = jsonFile[i]["7"]
+    faixae = jsonFile[i]["8"]
+    capcid = jsonFile[i]["9"]
+    //modali = jsonFile[i]["10"]
+    // adicionar conforme disponibilidade no arquivo de entrada
 
-        console.log(ano, estado, tp_atd, sexo, tp_cnt, abrngc, segmnt, faixae, capcid)
-            //tp_atd, sexo, tp_cnt, abrngc, segmnt, faixae, capcid, modali
-            // adicionar conforme disponibilidade no arq. de entr.
+    console.log(ano, estado, tp_atd, sexo, tp_cnt, abrngc, segmnt, faixae, capcid)
+    //tp_atd, sexo, tp_cnt, abrngc, segmnt, faixae, capcid, modali
+    // adicionar conforme disponibilidade no arq. de entr.
 
-        var xhr = new XMLHttpRequest();
-        var parser = new DOMParser();
+    var xhr = new XMLHttpRequest();
+    var parser = new DOMParser();
 
-        xhr.onreadystatechange = function() {
-            if (xhr.readyState == 4 && xhr.status == 200) {
+    xhr.onreadystatechange = function() {
+      if (xhr.readyState == 4 && xhr.status == 200) {
 
-            } else if (xhr.readyState == 4) {
-                console.log("HTTP returned error code", xhr.status)
-            }
-        }
-
-        //adicionar conforme disponibilidade no arq. de entrada
-        body = `Arquivos=tb_res_${ano}.dbf&SUF=${estado}&STipo_de_atendimento=${tp_atd}&SSexo=${sexo}&STipo_de_contrata%E7%E3o=${tp_cnt}&SAbrang%EAncia_geog.=${abrngc}&SSegmenta%E7%E3o_grupo=${segmnt}&SFaixa_et%E1ria=${faixae}&SCap%EDtulo_CID-10=${capcid}`
-        //&STipo_de_atendimento=${tp_atd}&SSexo=${sexo}&STipo_de_contrata%E7%E3o=${tp_cnt}&SAbrang%EAncia_geog.=${abrngc}&SSegmenta%E7%E3o_grupo=${segmnt}&SFaixa_et%E1ria=${faixae}&SCap%EDtulo_CID-10=${capcid}&SModalidade=${modali}`
-        parameters = `${requestBodyStart}${body}${requestBodyEnd}`
-
-        xhr.open("POST", url, false);
-        xhr.send(parameters);
-
-        tab = parser.parseFromString(xhr.response, "text/html")
-
-        if (tab.body.children[2].innerText == "Nenhum registro selecionado") {
-            quantidade = "0\n";
-            csvLine += `${ano};${estado};${tp_atd};${sexo};${tp_cnt};${abrngc};${segmnt};${faixae};${capcid};${modali};${quantidade}`;
-        } else {
-            linhas = tab.querySelectorAll("tr").length - 3
-
-            if (linhas < 1) {
-                linhas = 1
-            }
-    
-            for (j = 2; j < 2 + linhas; j++) {
-                /* *** PARA O RESTANTE *** */
-                header = tab.querySelectorAll("tr")[j].children[0].innerText.trim()
-                // adicionar a coluna que queremos extrair
-                //tp_atd = Tipo_de_atendimento[header]
-                //sexo = Sexo[header]
-                //tp_cnt = Tipo_de_contratacao[header]
-                //abrngc = Abrangencia_geografica[header]
-                //segmnt = Segmentacao_grupo[header]
-                //faixae = Faixa_etaria[header]
-                //capcid = Capitulo_CID10[header]
-                modali = Modalidade[header]
-                /* */
-                /* *** PARA MUNICÍPIO *** */
-                //munici = tab.querySelectorAll("tr")[j].children[0].innerText.replace(/\D/g,"")
-                /* */
-    
-                quantidade = tab.querySelectorAll("tr")[j].children[1].innerText
-                // adicionar a coluna que queremos extrair
-                csvLine += `${ano};${estado};${tp_atd};${sexo};${tp_cnt};${abrngc};${segmnt};${faixae};${capcid};${modali};${quantidade}`//;${sexo};${tp_cnt};${abrngc};${segmnt};${faixae};${capcid};${modali};${quantidade}`
-            }
-        }
-
-        console.log(`Fim da linha ${i}`)
+      } else if (xhr.readyState == 4) {
+        console.log("HTTP returned error code", xhr.status)
+      }
     }
+
+    //adicionar conforme disponibilidade no arq. de entrada
+    body = `Arquivos=tb_res_${ano}.dbf&SUF=${estado}&STipo_de_atendimento=${tp_atd}&SSexo=${sexo}&STipo_de_contrata%E7%E3o=${tp_cnt}&SAbrang%EAncia_geog.=${abrngc}&SSegmenta%E7%E3o_grupo=${segmnt}&SFaixa_et%E1ria=${faixae}&SCap%EDtulo_CID-10=${capcid}`
+    //&STipo_de_atendimento=${tp_atd}&SSexo=${sexo}&STipo_de_contrata%E7%E3o=${tp_cnt}&SAbrang%EAncia_geog.=${abrngc}&SSegmenta%E7%E3o_grupo=${segmnt}&SFaixa_et%E1ria=${faixae}&SCap%EDtulo_CID-10=${capcid}&SModalidade=${modali}`
+    parameters = `${requestBodyStart}${body}${requestBodyEnd}`
+
+    xhr.open("POST", url, false);
+    xhr.send(parameters);
+
+    tab = parser.parseFromString(xhr.response, 'text/html')
+
+    if (tab.body.children[2].innerText == 'Nenhum registro selecionado') {
+      quantidade = '0\n'
+      csvLine += `${ano};${estado};${tp_atd};${sexo};${tp_cnt};${abrngc};${segmnt};${faixae};${capcid};${modali};${quantidade}`;
+    } else {
+      linhas = tab.querySelectorAll("tr").length - 3
+
+      if (linhas < 1) {
+        linhas = 1
+      }
+
+      for (j = 2; j < 2 + linhas; j++) {
+        /* *** PARA O RESTANTE *** */
+        header = tab.querySelectorAll("tr")[j].children[0].innerText.trim()
+        // adicionar a coluna que queremos extrair
+        //tp_atd = Tipo_de_atendimento[header]
+        //sexo = Sexo[header]
+        //tp_cnt = Tipo_de_contratacao[header]
+        //abrngc = Abrangencia_geografica[header]
+        //segmnt = Segmentacao_grupo[header]
+        //faixae = Faixa_etaria[header]
+        //capcid = Capitulo_CID10[header]
+        modali = Modalidade[header]
+        /* */
+        /* *** PARA MUNICÍPIO *** */
+        //munici = tab.querySelectorAll("tr")[j].children[0].innerText.replace(/\D/g,"")
+        /* */
+
+        quantidade = tab.querySelectorAll('tr')[j].children[1].innerText
+        // adicionar a coluna que queremos extrair
+        csvLine += `${ano};${estado};${tp_atd};${sexo};${tp_cnt};${abrngc};${segmnt};${faixae};${capcid};${modali};${quantidade}`//;${sexo};${tp_cnt};${abrngc};${segmnt};${faixae};${capcid};${modali};${quantidade}`
+      }
+    }
+
+    console.log(`Fim da linha ${i}`)
+  }
 }

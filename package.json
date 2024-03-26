@@ -1,0 +1,29 @@
+{
+  "name": "tabnet",
+  "version": "1.0.0",
+  "description": "TabNet",
+  "main": "paula/script-Paula.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://EGobi@github.com/EGobi/TabNet.git"
+  },
+  "keywords": [
+    "tabnet"
+  ],
+  "author": "Eduardo Loeffel Noce Gobi",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/EGobi/TabNet/issues"
+  },
+  "homepage": "https://github.com/EGobi/TabNet#readme",
+  "devDependencies": {
+    "eslint": "^8.57.0",
+    "eslint-config-standard": "^17.1.0",
+    "eslint-plugin-import": "^2.29.1",
+    "eslint-plugin-n": "^16.6.2",
+    "eslint-plugin-promise": "^6.1.1"
+  }
+}
