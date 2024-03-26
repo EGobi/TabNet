@@ -180,7 +180,7 @@ function main() {
         tab = parser.parseFromString(xhr.response, "text/html")
 
         if (tab.body.children[2].innerText == "Nenhum registro selecionado") {
-            quantidade = 0;
+            quantidade = "0\n";
             csvLine += `${ano};${estado};${tp_atd};${sexo};${tp_cnt};${abrngc};${segmnt};${faixae};${capcid};${modali};${quantidade}`;
         } else {
             linhas = tab.querySelectorAll("tr").length - 3
