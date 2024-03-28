@@ -13,8 +13,9 @@ const linha = 'Modalidade'
 incremento = "Atendimentos"
 incremento = "Valor_total"
 incremento = "Valor_m%E9dio"
+incremento = 'Valor_cobrado'
 */
-const incremento = 'Valor_cobrado'
+const incremento = 'Valor_pago'
 
 const requestBodyStart = `Linha=${linha}&Coluna=--N%E3o-Ativa--&Incremento=${incremento}&`
 const requestBodyEnd = '&formato=table&mostre=Mostra'
@@ -30,27 +31,27 @@ const Tipo_de_atendimento = {
 } // STipo_de_atendimento
 
 const Sexo = {
-    "Masculino": 1,
-    "Feminino": 2,
-    "Não informado": 3
+  "Masculino": 1,
+  "Feminino": 2,
+  "Não informado": 3
 } // SSexo
 
 const Tipo_de_contratacao = {
-    "Individual ou Familiar": 1,
-    "Coletivo Empresarial": 2,
-    "Coletivo por adesão": 3,
-    "Coletivo não identificado": 4,
-    "Não Informado": 5
+  "Individual ou Familiar": 1,
+  "Coletivo Empresarial": 2,
+  "Coletivo por adesão": 3,
+  "Coletivo não identificado": 4,
+  "Não Informado": 5
 } // STipo_de_contrata%E7%E3o
 
 const Abrangencia_geografica = {
-    "Nacional": 1,
-    "Grupo de Estados": 2,
-    "Estadual": 3,
-    "Grupo de Municípios": 4,
-    "Municipal": 5,
-    "Outra": 6,
-    "Não Informado": 7
+  "Nacional": 1,
+  "Grupo de Estados": 2,
+  "Estadual": 3,
+  "Grupo de Municípios": 4,
+  "Municipal": 5,
+  "Outra": 6,
+  "Não Informado": 7
 } //SAbrang%EAncia_geog.
 
 const Segmentacao_grupo = {
@@ -180,6 +181,7 @@ function main() {
     tab = parser.parseFromString(xhr.response, 'text/html')
 
     if (tab.body.children[2].innerText == 'Nenhum registro selecionado') {
+      if (typeof modali == 'undefined') {modali = 1} // quickfix para valor cobrado em que a primeira linha do arquivo retorna 0
       quantidade = '0\n'
       csvLine += `${ano};${estado};${tp_atd};${sexo};${tp_cnt};${abrngc};${segmnt};${faixae};${capcid};${modali};${quantidade}`;
     } else {
