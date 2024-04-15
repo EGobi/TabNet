@@ -52,7 +52,7 @@ const Abrangencia_geografica = {
   "Municipal": 5,
   "Outra": 6,
   "Não Informado": 7
-} //SAbrang%EAncia_geog.
+} // SAbrang%EAncia_geog.
 
 const Segmentacao_grupo = {
     "Ambulatorial": 1,
@@ -152,11 +152,11 @@ function main() {
     segmnt = jsonFile[i]["7"]
     faixae = jsonFile[i]["8"]
     capcid = jsonFile[i]["9"]
-    //modali = jsonFile[i]["10"]
+    // modali = jsonFile[i]["10"]
     // adicionar conforme disponibilidade no arquivo de entrada
 
     console.log(ano, estado, tp_atd, sexo, tp_cnt, abrngc, segmnt, faixae, capcid)
-    //tp_atd, sexo, tp_cnt, abrngc, segmnt, faixae, capcid, modali
+    // tp_atd, sexo, tp_cnt, abrngc, segmnt, faixae, capcid, modali
     // adicionar conforme disponibilidade no arq. de entr.
 
     var xhr = new XMLHttpRequest();
@@ -170,9 +170,9 @@ function main() {
       }
     }
 
-    //adicionar conforme disponibilidade no arq. de entrada
+    // adicionar conforme disponibilidade no arq. de entrada
     body = `Arquivos=tb_res_${ano}.dbf&SUF=${estado}&STipo_de_atendimento=${tp_atd}&SSexo=${sexo}&STipo_de_contrata%E7%E3o=${tp_cnt}&SAbrang%EAncia_geog.=${abrngc}&SSegmenta%E7%E3o_grupo=${segmnt}&SFaixa_et%E1ria=${faixae}&SCap%EDtulo_CID-10=${capcid}`
-    //&STipo_de_atendimento=${tp_atd}&SSexo=${sexo}&STipo_de_contrata%E7%E3o=${tp_cnt}&SAbrang%EAncia_geog.=${abrngc}&SSegmenta%E7%E3o_grupo=${segmnt}&SFaixa_et%E1ria=${faixae}&SCap%EDtulo_CID-10=${capcid}&SModalidade=${modali}`
+    // &STipo_de_atendimento=${tp_atd}&SSexo=${sexo}&STipo_de_contrata%E7%E3o=${tp_cnt}&SAbrang%EAncia_geog.=${abrngc}&SSegmenta%E7%E3o_grupo=${segmnt}&SFaixa_et%E1ria=${faixae}&SCap%EDtulo_CID-10=${capcid}&SModalidade=${modali}`
     parameters = `${requestBodyStart}${body}${requestBodyEnd}`
 
     xhr.open("POST", url, false);
@@ -195,17 +195,17 @@ function main() {
         /* *** PARA O RESTANTE *** */
         header = tab.querySelectorAll("tr")[j].children[0].innerText.trim()
         // adicionar a coluna que queremos extrair
-        //tp_atd = Tipo_de_atendimento[header]
-        //sexo = Sexo[header]
-        //tp_cnt = Tipo_de_contratacao[header]
-        //abrngc = Abrangencia_geografica[header]
-        //segmnt = Segmentacao_grupo[header]
-        //faixae = Faixa_etaria[header]
-        //capcid = Capitulo_CID10[header]
+        // tp_atd = Tipo_de_atendimento[header]
+        // sexo = Sexo[header]
+        // tp_cnt = Tipo_de_contratacao[header]
+        // abrngc = Abrangencia_geografica[header]
+        // segmnt = Segmentacao_grupo[header]
+        // faixae = Faixa_etaria[header]
+        // capcid = Capitulo_CID10[header]
         modali = Modalidade[header]
         /* */
         /* *** PARA MUNICÍPIO *** */
-        //munici = tab.querySelectorAll("tr")[j].children[0].innerText.replace(/\D/g,"")
+        // munici = tab.querySelectorAll("tr")[j].children[0].innerText.replace(/\D/g,"")
         /* */
 
         quantidade = tab.querySelectorAll('tr')[j].children[1].innerText
