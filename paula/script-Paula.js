@@ -25,10 +25,12 @@ let csvLine = 'data:text/csv;charset=utf-8,Ano;Estado;Tipo de atendimento;Sexo;T
 
 const url = 'https://www.ans.gov.br/anstabnet/cgi-bin/tabnet?dados/tabnet_res.def'
 
-const Tipo_de_atendimento = {
-    "AIH": 1,
-    "APAC": 2
+/*
+const tipoAtendimento = {
+  AIH: 1,
+  APAC: 2
 } // STipo_de_atendimento
+*/
 
 const Sexo = {
   "Masculino": 1,
@@ -195,7 +197,7 @@ function main() {
         /* *** PARA O RESTANTE *** */
         header = tab.querySelectorAll("tr")[j].children[0].innerText.trim()
         // adicionar a coluna que queremos extrair
-        // tp_atd = Tipo_de_atendimento[header]
+        // tp_atd = tipoAtendimento[header]
         // sexo = Sexo[header]
         // tp_cnt = Tipo_de_contratacao[header]
         // abrngc = Abrangencia_geografica[header]
