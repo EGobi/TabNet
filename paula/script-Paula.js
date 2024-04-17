@@ -11,7 +11,7 @@ linha = "Cap%EDtulo_CID-10"
 const linha = 'Modalidade'
 
 // Atendimentos, Valor_total, Valor_m%E9dio, Valor_cobrado, Valor_pago
-const incremento = 'Quantidade cobrada'
+const incremento = 'Quantidade_cobrada'
 
 const requestBodyStart = `Linha=${linha}&Coluna=--N%E3o-Ativa--&Incremento=${incremento}&`
 const requestBodyEnd = '&formato=table&mostre=Mostra'
