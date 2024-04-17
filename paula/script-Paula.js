@@ -9,13 +9,9 @@ linha = "Faixa_et%E1ria"
 linha = "Cap%EDtulo_CID-10"
 */
 const linha = 'Modalidade'
-/*
-incremento = "Atendimentos"
-incremento = "Valor_total"
-incremento = "Valor_m%E9dio"
-incremento = 'Valor_cobrado'
-*/
-const incremento = 'Valor_pago'
+
+// Atendimentos, Valor_total, Valor_m%E9dio, Valor_cobrado, Valor_pago
+const incremento = 'Quantidade cobrada'
 
 const requestBodyStart = `Linha=${linha}&Coluna=--N%E3o-Ativa--&Incremento=${incremento}&`
 const requestBodyEnd = '&formato=table&mostre=Mostra'
@@ -30,31 +26,31 @@ const tipoAtendimento = {
   AIH: 1,
   APAC: 2
 } // STipo_de_atendimento
-*/
 
-const Sexo = {
-  "Masculino": 1,
-  "Feminino": 2,
-  "Não informado": 3
+const sexoCl = {
+  Masculino: 1,
+  Feminino: 2,
+  'Não informado': 3
 } // SSexo
 
-const Tipo_de_contratacao = {
-  "Individual ou Familiar": 1,
-  "Coletivo Empresarial": 2,
-  "Coletivo por adesão": 3,
-  "Coletivo não identificado": 4,
-  "Não Informado": 5
+const tipoContratacao = {
+  'Individual ou Familiar': 1,
+  'Coletivo Empresarial': 2,
+  'Coletivo por adesão': 3,
+  'Coletivo não identificado': 4,
+  'Não Informado': 5
 } // STipo_de_contrata%E7%E3o
 
-const Abrangencia_geografica = {
-  "Nacional": 1,
-  "Grupo de Estados": 2,
-  "Estadual": 3,
-  "Grupo de Municípios": 4,
-  "Municipal": 5,
-  "Outra": 6,
-  "Não Informado": 7
+const abrangenciaGeografica = {
+  Nacional: 1,
+  'Grupo de Estados': 2,
+  Estadual: 3,
+  'Grupo de Municípios': 4,
+  Municipal: 5,
+  Outra: 6,
+  'Não Informado': 7
 } // SAbrang%EAncia_geog.
+*/
 
 const Segmentacao_grupo = {
     "Ambulatorial": 1,
@@ -198,9 +194,9 @@ function main() {
         header = tab.querySelectorAll("tr")[j].children[0].innerText.trim()
         // adicionar a coluna que queremos extrair
         // tp_atd = tipoAtendimento[header]
-        // sexo = Sexo[header]
-        // tp_cnt = Tipo_de_contratacao[header]
-        // abrngc = Abrangencia_geografica[header]
+        // sexoCl = sexo[header]
+        // tp_cnt = tipoContratacao[header]
+        // abrngc = abrangenciaGeografica[header]
         // segmnt = Segmentacao_grupo[header]
         // faixae = Faixa_etaria[header]
         // capcid = Capitulo_CID10[header]
