@@ -50,17 +50,17 @@ const abrangenciaGeografica = {
   Outra: 6,
   'Não Informado': 7
 } // SAbrang%EAncia_geog.
-*/
 
-const Segmentacao_grupo = {
-    "Ambulatorial": 1,
-    "Hospitalar": 2,
-    "Hospitalar e Ambulatorial": 3,
-    "Referência": 4,
-    "Odontológico": 5,
-    "Informado incorretamente": 6,
-    "Não Informado": 7
+const segmentacaoGrupo = {
+  Ambulatorial: 1,
+  Hospitalar: 2,
+  'Hospitalar e Ambulatorial': 3,
+  Referência: 4,
+  Odontológico: 5,
+  'Informado incorretamente': 6,
+  'Não Informado': 7
 } // SSegmenta%E7%E3o_grupo
+*/
 
 const Faixa_etaria = {
     "Até 1 ano": 1,
@@ -197,7 +197,7 @@ function main() {
         // sexoCl = sexo[header]
         // tp_cnt = tipoContratacao[header]
         // abrngc = abrangenciaGeografica[header]
-        // segmnt = Segmentacao_grupo[header]
+        // segmnt = segmentacaoGrupo[header]
         // faixae = Faixa_etaria[header]
         // capcid = Capitulo_CID10[header]
         modali = Modalidade[header]
