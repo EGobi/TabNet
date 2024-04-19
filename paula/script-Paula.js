@@ -60,29 +60,29 @@ const segmentacaoGrupo = {
   'Informado incorretamente': 6,
   'Não Informado': 7
 } // SSegmenta%E7%E3o_grupo
-*/
 
-const Faixa_etaria = {
-    "Até 1 ano": 1,
-    "1 a 4 anos": 2,
-    "5 a 9 anos": 3,
-    "10 a 14 anos": 4,
-    "15 a 19 anos": 5,
-    "20 a 24 anos": 6,
-    "25 a 29 anos": 7,
-    "30 a 34 anos": 8,
-    "35 a 39 anos": 9,
-    "40 a 44 anos": 10, 
-    "45 a 49 anos": 11,
-    "50 a 54 anos": 12, 
-    "55 a 59 anos": 13, 
-    "60 a 64 anos": 14, 
-    "65 a 69 anos": 15, 
-    "70 a 74 anos": 16, 
-    "75 a 79 anos": 17, 
-    "80 anos ou mais": 18, 
-    "Inconsistente": 19
+const faixaEtaria = {
+    'Até 1 ano': 1,
+    '1 a 4 anos': 2,
+    '5 a 9 anos': 3,
+    '10 a 14 anos': 4,
+    '15 a 19 anos': 5,
+    '20 a 24 anos': 6,
+    '25 a 29 anos': 7,
+    '30 a 34 anos': 8,
+    '35 a 39 anos': 9,
+    '40 a 44 anos': 10, 
+    '45 a 49 anos': 11,
+    '50 a 54 anos': 12, 
+    '55 a 59 anos': 13, 
+    '60 a 64 anos': 14, 
+    '65 a 69 anos': 15, 
+    '70 a 74 anos': 16, 
+    '75 a 79 anos': 17, 
+    '80 anos ou mais': 18, 
+    'Inconsistente': 19
 } // SFaixa_et%E1ria
+*/
 
 const SCapitulo_CID10 = "" // SCap%EDtulo_CID-10
 const Capitulo_CID10 = {
@@ -198,7 +198,7 @@ function main() {
         // tp_cnt = tipoContratacao[header]
         // abrngc = abrangenciaGeografica[header]
         // segmnt = segmentacaoGrupo[header]
-        // faixae = Faixa_etaria[header]
+        // faixae = faixaEtaria[header]
         // capcid = Capitulo_CID10[header]
         modali = Modalidade[header]
         /* */
