@@ -82,47 +82,47 @@ const faixaEtaria = {
     '80 anos ou mais': 18, 
     'Inconsistente': 19
 } // SFaixa_et%E1ria
+
+const sCapituloCID10 = '' // SCap%EDtulo_CID-10
+const capituloCID10 = {
+  'I.   Algumas doenças infecciosas e parasitárias': 1,
+  'II.  Neoplasias (tumores)': 2,
+  'III. Doenças sangue órgãos hemat e transt imunitár': 3,
+  'IV.  Doenças endócrinas nutricionais e metabólicas': 4,
+  'V.   Transtornos mentais e comportamentais': 5,
+  'VI.  Doenças do sistema nervoso': 6,
+  'VII. Doenças do olho e anexos': 7,
+  'VIII.Doenças do ouvido e da apófise mastóide': 8,
+  'IX.  Doenças do aparelho circulatório': 9,
+  'X.   Doenças do aparelho respiratório': 10,
+  'XI.  Doenças do aparelho digestivo': 11,
+  'XII. Doenças da pele e do tecido subcutâneo': 12,
+  'XIII.Doenças sist osteomuscular e tec conjuntivo': 13,
+  'XIV. Doenças do aparelho geniturinário': 14,
+  'XV.  Gravidez parto e puerpério': 15,
+  'XVI. Algumas afec originadas no período perinatal': 16,
+  'XVII.Malf cong deformid e anomalias cromossômicas': 17,
+  'XVIII.Sint sinais e achad anorm ex clín e laborat': 18,
+  'XIX. Lesões enven e alg out conseq causas externas': 19,
+  'XX.  Causas externas de morbidade e mortalidade': 20,
+  'XXI. Contatos com serviços de saúde': 21,
+  'XXII.Códigos para propósitos especiais': 22,
+  'U99  CID 10ª Revisão não disponível': 23,
+  Ignorado: 24,
+  'Não informado': 25
+}
 */
 
-const SCapitulo_CID10 = "" // SCap%EDtulo_CID-10
-const Capitulo_CID10 = {
-    "I.   Algumas doenças infecciosas e parasitárias": 1, 
-    "II.  Neoplasias (tumores)": 2,
-    "III. Doenças sangue órgãos hemat e transt imunitár": 3, 
-    "IV.  Doenças endócrinas nutricionais e metabólicas": 4, 
-    "V.   Transtornos mentais e comportamentais": 5, 
-    "VI.  Doenças do sistema nervoso": 6, 
-    "VII. Doenças do olho e anexos": 7, 
-    "VIII.Doenças do ouvido e da apófise mastóide": 8, 
-    "IX.  Doenças do aparelho circulatório": 9, 
-    "X.   Doenças do aparelho respiratório": 10, 
-    "XI.  Doenças do aparelho digestivo": 11, 
-    "XII. Doenças da pele e do tecido subcutâneo": 12, 
-    "XIII.Doenças sist osteomuscular e tec conjuntivo": 13,
-    "XIV. Doenças do aparelho geniturinário": 14, 
-    "XV.  Gravidez parto e puerpério": 15, 
-    "XVI. Algumas afec originadas no período perinatal": 16,
-    "XVII.Malf cong deformid e anomalias cromossômicas": 17, 
-    "XVIII.Sint sinais e achad anorm ex clín e laborat": 18,
-    "XIX. Lesões enven e alg out conseq causas externas": 19, 
-    "XX.  Causas externas de morbidade e mortalidade": 20,
-    "XXI. Contatos com serviços de saúde": 21, 
-    "XXII.Códigos para propósitos especiais": 22, 
-    "U99  CID 10ª Revisão não disponível": 23,
-    "Ignorado": 24, 
-    "Não informado": 25
-}
-
-const Modalidade = {
-    "Autogestão": 1,
-    "Cooperativa Médica": 2,
-    "Filantropia": 3,
-    "Medicina de Grupo": 4,
-    "Seguradora Especializada em Saúde": 5,
-    "Cooperativa Odontológica": 6,
-    "Odontologia de Grupo": 7,
-    "Administradora": 8,
-    "Administradora de Benefícios": 9
+const modalidade = {
+  Autogestão: 1,
+  'Cooperativa Médica': 2,
+  Filantropia: 3,
+  'Medicina de Grupo': 4,
+  'Seguradora Especializada em Saúde': 5,
+  'Cooperativa Odontológica': 6,
+  'Odontologia de Grupo': 7,
+  Administradora: 8,
+  'Administradora de Benefícios': 9
 }
 
 const Especialidade_AIH = {
@@ -199,8 +199,8 @@ function main() {
         // abrngc = abrangenciaGeografica[header]
         // segmnt = segmentacaoGrupo[header]
         // faixae = faixaEtaria[header]
-        // capcid = Capitulo_CID10[header]
-        modali = Modalidade[header]
+        // capcid = capituloCID10[header]
+        modali = modalidade[header]
         /* */
         /* *** PARA MUNICÍPIO *** */
         // munici = tab.querySelectorAll("tr")[j].children[0].innerText.replace(/\D/g,"")
