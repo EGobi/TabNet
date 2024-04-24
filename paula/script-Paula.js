@@ -10,8 +10,8 @@ linha = "Cap%EDtulo_CID-10"
 */
 const linha = 'Modalidade'
 
-// Atendimentos, Valor_total, Valor_m%E9dio, Valor_cobrado, Valor_pago
-const incremento = 'Quantidade_cobrada'
+// Atendimentos, Valor_total, Valor_m%E9dio, Valor_cobrado, Valor_pago, Quantidade_cobrada
+const incremento = 'Quantidade_paga'
 
 const requestBodyStart = `Linha=${linha}&Coluna=--N%E3o-Ativa--&Incremento=${incremento}&`
 const requestBodyEnd = '&formato=table&mostre=Mostra'
@@ -111,6 +111,19 @@ const capituloCID10 = {
   Ignorado: 24,
   'Não informado': 25
 }
+
+const especialidadeAIH = {
+  Cirurgia: 1,
+  Obstetrícia: 2,
+  'Clínica Médica': 3,
+  'Pacientes sob cuidados prolongado': 4,
+  Psiquiatria: 5,
+  Tisiologia: 6,
+  Pediatria: 7,
+  Reabilitação: 8,
+  'Psiquiatria em hospital dia': 9,
+  'Não informado': 10
+}
 */
 
 const modalidade = {
@@ -123,19 +136,6 @@ const modalidade = {
   'Odontologia de Grupo': 7,
   Administradora: 8,
   'Administradora de Benefícios': 9
-}
-
-const Especialidade_AIH = {
-    "Cirurgia": 1, 
-    "Obstetrícia": 2, 
-    "Clínica Médica": 3, 
-    "Pacientes sob cuidados prolongado": 4, 
-    "Psiquiatria": 5, 
-    "Tisiologia": 6, 
-    "Pediatria": 7, 
-    "Reabilitação": 8, 
-    "Psiquiatria em hospital dia": 9, 
-    "Não informado": 10
 }
 
 function main() {
