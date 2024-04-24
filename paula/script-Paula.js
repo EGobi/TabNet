@@ -138,19 +138,19 @@ const modalidade = {
   'Administradora de Benefícios': 9
 }
 
-function main() {
+function main () {
   for (const i in jsonFile) {
-    ano    = jsonFile[i]["1"]
-    ano    = ano.toString().length == 2 ? ano : "0" + ano
-    estado = jsonFile[i]["2"]
-    tp_atd = jsonFile[i]["3"]
-    sexo   = jsonFile[i]["4"]
-    tp_cnt = jsonFile[i]["5"]
-    abrngc = jsonFile[i]["6"]
-    segmnt = jsonFile[i]["7"]
-    faixae = jsonFile[i]["8"]
-    capcid = jsonFile[i]["9"]
-    // modali = jsonFile[i]["10"]
+    ano    = jsonFile[i]['1']
+    ano    = ano.toString().length == 2 ? ano : '0' + ano
+    estado = jsonFile[i]['2']
+    tp_atd = jsonFile[i]['3']
+    sexo   = jsonFile[i]['4']
+    tp_cnt = jsonFile[i]['5']
+    abrngc = jsonFile[i]['6']
+    segmnt = jsonFile[i]['7']
+    faixae = jsonFile[i]['8']
+    capcid = jsonFile[i]['9']
+    // modali = jsonFile[i]['10']
     // adicionar conforme disponibilidade no arquivo de entrada
 
     console.log(ano, estado, tp_atd, sexo, tp_cnt, abrngc, segmnt, faixae, capcid)
