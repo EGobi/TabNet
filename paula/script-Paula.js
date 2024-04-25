@@ -140,48 +140,48 @@ const modalidade = {
 
 function main () {
   for (const i in jsonFile) {
-    ano    = jsonFile[i]['1']
-    ano    = ano.toString().length == 2 ? ano : '0' + ano
-    estado = jsonFile[i]['2']
-    tp_atd = jsonFile[i]['3']
-    sexo   = jsonFile[i]['4']
-    tp_cnt = jsonFile[i]['5']
-    abrngc = jsonFile[i]['6']
-    segmnt = jsonFile[i]['7']
-    faixae = jsonFile[i]['8']
-    capcid = jsonFile[i]['9']
+    let ano = jsonFile[i]['1']
+    ano = ano.toString().length == 2 ? ano : '0' + ano
+    const estado = jsonFile[i]['2']
+    const tpAtd = jsonFile[i]['3']
+    const sexo = jsonFile[i]['4']
+    const tpCnt = jsonFile[i]['5']
+    const abrngc = jsonFile[i]['6']
+    const segmnt = jsonFile[i]['7']
+    const faixae = jsonFile[i]['8']
+    const capcid = jsonFile[i]['9']
     // modali = jsonFile[i]['10']
     // adicionar conforme disponibilidade no arquivo de entrada
 
-    console.log(ano, estado, tp_atd, sexo, tp_cnt, abrngc, segmnt, faixae, capcid)
-    // tp_atd, sexo, tp_cnt, abrngc, segmnt, faixae, capcid, modali
+    console.log(ano, estado, tpAtd, sexo, tpCnt, abrngc, segmnt, faixae, capcid)
+    // tpAtd, sexo, tpCnt, abrngc, segmnt, faixae, capcid, modali
     // adicionar conforme disponibilidade no arq. de entr.
 
-    var xhr = new XMLHttpRequest();
-    var parser = new DOMParser();
+    const xhr = new XMLHttpRequest()
+    const parser = new DOMParser()
 
-    xhr.onreadystatechange = function() {
-      if (xhr.readyState == 4 && xhr.status == 200) {
-
-      } else if (xhr.readyState == 4) {
-        console.log("HTTP returned error code", xhr.status)
+    xhr.onreadystatechange = function () {
+      if (xhr.readyState === 4 && xhr.status === 200) {
+        // do nothing
+      } else if (xhr.readyState === 4) {
+        console.log('HTTP returned error code', xhr.status)
       }
     }
 
     // adicionar conforme disponibilidade no arq. de entrada
-    body = `Arquivos=tb_res_${ano}.dbf&SUF=${estado}&STipo_de_atendimento=${tp_atd}&SSexo=${sexo}&STipo_de_contrata%E7%E3o=${tp_cnt}&SAbrang%EAncia_geog.=${abrngc}&SSegmenta%E7%E3o_grupo=${segmnt}&SFaixa_et%E1ria=${faixae}&SCap%EDtulo_CID-10=${capcid}`
-    // &STipo_de_atendimento=${tp_atd}&SSexo=${sexo}&STipo_de_contrata%E7%E3o=${tp_cnt}&SAbrang%EAncia_geog.=${abrngc}&SSegmenta%E7%E3o_grupo=${segmnt}&SFaixa_et%E1ria=${faixae}&SCap%EDtulo_CID-10=${capcid}&SModalidade=${modali}`
-    parameters = `${requestBodyStart}${body}${requestBodyEnd}`
+    const body = `Arquivos=tb_res_${ano}.dbf&SUF=${estado}&STipo_de_atendimento=${tpAtd}&SSexo=${sexo}&STipo_de_contrata%E7%E3o=${tpCnt}&SAbrang%EAncia_geog.=${abrngc}&SSegmenta%E7%E3o_grupo=${segmnt}&SFaixa_et%E1ria=${faixae}&SCap%EDtulo_CID-10=${capcid}`
+    // &STipo_de_atendimento=${tpAtd}&SSexo=${sexo}&STipo_de_contrata%E7%E3o=${tpCnt}&SAbrang%EAncia_geog.=${abrngc}&SSegmenta%E7%E3o_grupo=${segmnt}&SFaixa_et%E1ria=${faixae}&SCap%EDtulo_CID-10=${capcid}&SModalidade=${modali}`
+    const parameters = `${requestBodyStart}${body}${requestBodyEnd}`
 
-    xhr.open("POST", url, false);
-    xhr.send(parameters);
+    xhr.open('POST', url, false)
+    xhr.send(parameters)
 
-    tab = parser.parseFromString(xhr.response, 'text/html')
+    const tab = parser.parseFromString(xhr.response, 'text/html')
 
     if (tab.body.children[2].innerText == 'Nenhum registro selecionado') {
       if (typeof modali == 'undefined') {modali = 1} // quickfix para valor cobrado em que a primeira linha do arquivo retorna 0
       quantidade = '0\n'
-      csvLine += `${ano};${estado};${tp_atd};${sexo};${tp_cnt};${abrngc};${segmnt};${faixae};${capcid};${modali};${quantidade}`;
+      csvLine += `${ano};${estado};${tpAtd};${sexo};${tpCnt};${abrngc};${segmnt};${faixae};${capcid};${modali};${quantidade}`;
     } else {
       linhas = tab.querySelectorAll("tr").length - 3
 
@@ -193,9 +193,9 @@ function main () {
         /* *** PARA O RESTANTE *** */
         header = tab.querySelectorAll("tr")[j].children[0].innerText.trim()
         // adicionar a coluna que queremos extrair
-        // tp_atd = tipoAtendimento[header]
+        // tpAtd = tipoAtendimento[header]
         // sexoCl = sexo[header]
-        // tp_cnt = tipoContratacao[header]
+        // tpCnt = tipoContratacao[header]
         // abrngc = abrangenciaGeografica[header]
         // segmnt = segmentacaoGrupo[header]
         // faixae = faixaEtaria[header]
@@ -208,7 +208,7 @@ function main () {
 
         quantidade = tab.querySelectorAll('tr')[j].children[1].innerText
         // adicionar a coluna que queremos extrair
-        csvLine += `${ano};${estado};${tp_atd};${sexo};${tp_cnt};${abrngc};${segmnt};${faixae};${capcid};${modali};${quantidade}`//;${sexo};${tp_cnt};${abrngc};${segmnt};${faixae};${capcid};${modali};${quantidade}`
+        csvLine += `${ano};${estado};${tpAtd};${sexo};${tpCnt};${abrngc};${segmnt};${faixae};${capcid};${modali};${quantidade}`//;${sexo};${tpCnt};${abrngc};${segmnt};${faixae};${capcid};${modali};${quantidade}`
       }
     }
 
