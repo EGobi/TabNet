@@ -178,12 +178,14 @@ function main () {
 
     const tab = parser.parseFromString(xhr.response, 'text/html')
 
-    if (tab.body.children[2].innerText == 'Nenhum registro selecionado') {
-      if (typeof modali == 'undefined') {modali = 1} // quickfix para valor cobrado em que a primeira linha do arquivo retorna 0
-      quantidade = '0\n'
+    if (tab.body.children[2].innerText === 'Nenhum registro selecionado') {
+      if (typeof modali === 'undefined') {
+        modali = 1
+      } // quickfix para valor cobrado em que a primeira linha do arquivo retorna 0
+      const quantidade = '0\n'
       csvLine += `${ano};${estado};${tpAtd};${sexo};${tpCnt};${abrngc};${segmnt};${faixae};${capcid};${modali};${quantidade}`;
     } else {
-      linhas = tab.querySelectorAll("tr").length - 3
+      let linhas = tab.querySelectorAll('tr').length - 3
 
       if (linhas < 1) {
         linhas = 1
