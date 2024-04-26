@@ -193,7 +193,7 @@ function main () {
 
       for (j = 2; j < 2 + linhas; j++) {
         /* *** PARA O RESTANTE *** */
-        header = tab.querySelectorAll("tr")[j].children[0].innerText.trim()
+        const header = tab.querySelectorAll('tr')[j].children[0].innerText.trim()
         // adicionar a coluna que queremos extrair
         // tpAtd = tipoAtendimento[header]
         // sexoCl = sexo[header]
@@ -210,7 +210,7 @@ function main () {
 
         quantidade = tab.querySelectorAll('tr')[j].children[1].innerText
         // adicionar a coluna que queremos extrair
-        csvLine += `${ano};${estado};${tpAtd};${sexo};${tpCnt};${abrngc};${segmnt};${faixae};${capcid};${modali};${quantidade}`//;${sexo};${tpCnt};${abrngc};${segmnt};${faixae};${capcid};${modali};${quantidade}`
+        csvLine += `${ano};${estado};${tpAtd};${sexo};${tpCnt};${abrngc};${segmnt};${faixae};${capcid};${modali};${quantidade}`// ;${sexo};${tpCnt};${abrngc};${segmnt};${faixae};${capcid};${modali};${quantidade}`
       }
     }
 
