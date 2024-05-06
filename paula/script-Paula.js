@@ -1,27 +1,59 @@
 // a linha deve corresponder à coluna que queremos extrair, e o incremento ao valor
 /*
-linha = "Tipo_de_atendimento"
-linha = "Sexo"
-linha = "Tipo_de_contrata%E7%E3o"
-linha = "Abrang%EAncia_geog."
-linha = "Segmenta%E7%E3o_grupo"
-linha = "Faixa_et%E1ria"
-linha = "Cap%EDtulo_CID-10"
+linha = 'UF'
+linha = 'Tipo_de_atendimento'
+linha = 'Sexo'
+linha = 'Tipo_de_contrata%E7%E3o'
+linha = 'Abrang%EAncia_geog.'
+linha = 'Segmenta%E7%E3o_grupo'
+linha = 'Faixa_et%E1ria'
+linha = 'Cap%EDtulo_CID-10'
+linha = 'Modalidade'
 */
 const linha = 'Modalidade'
 
 // Atendimentos, Valor_total, Valor_m%E9dio, Valor_cobrado, Valor_pago, Quantidade_cobrada
-const incremento = 'Quantidade_paga'
+const incremento = 'Atendimentos'
 
 const requestBodyStart = `Linha=${linha}&Coluna=--N%E3o-Ativa--&Incremento=${incremento}&`
 const requestBodyEnd = '&formato=table&mostre=Mostra'
 
 // csvLine = `data:text/csv;charset=utf-8,Ano;Estado;Tipo de atendimento;Sexo;Tipo de contratação;Abrangência geográfica;Segmentação por grupo;Faixa etária;Capítulo CID-10;Modalidade;Valor cobrado\r\n`
-let csvLine = 'data:text/csv;charset=utf-8,Ano;Estado;Tipo de atendimento;Sexo;Tipo de contratação;Abrangência geográfica;Segmentação por grupo;Faixa etária;Capítulo CID-10;Modalidade;Quantidade\r\n'
-
+let csvLine = 'data:text/csv;charset=utf-8,Ano;Estado;Tipo de atendimento;Sexo;Tipo de contratação;Abrangência geográfica;Segmentação por grupo;Faixa etária;Capítulo CID-10;Modalidade;Atendimentos\r\n'
 const url = 'https://www.ans.gov.br/anstabnet/cgi-bin/tabnet?dados/tabnet_res.def'
-
 /*
+const UF = {
+  Acre: 1,
+  Alagoas: 2,
+  Amapá: 3,
+  Amazonas: 4,
+  Bahia: 5,
+  Ceará: 6,
+  'Distrito Federal': 7,
+  'Espírito Santo': 8,
+  Goiás: 9,
+  Maranhão: 10,
+  'Mato Grosso': 11,
+  'Mato Grosso do Sul': 12,
+  'Minas Gerais': 13,
+  Pará: 14,
+  Paraíba: 15,
+  Paraná: 16,
+  Pernambuco: 17,
+  Piauí: 18,
+  'Rio de Janeiro': 19,
+  'Rio Grande do Norte': 20,
+  'Rio Grande do Sul': 21,
+  Rondônia: 22,
+  Roraima: 23,
+  'Santa Catarina': 24,
+  'São Paulo': 25,
+  Sergipe: 26,
+  Tocantins: 27,
+  Exterior: 28,
+  'Não Identificado': 29
+}
+
 const tipoAtendimento = {
   AIH: 1,
   APAC: 2
@@ -71,16 +103,16 @@ const faixaEtaria = {
     '25 a 29 anos': 7,
     '30 a 34 anos': 8,
     '35 a 39 anos': 9,
-    '40 a 44 anos': 10, 
+    '40 a 44 anos': 10,
     '45 a 49 anos': 11,
-    '50 a 54 anos': 12, 
-    '55 a 59 anos': 13, 
-    '60 a 64 anos': 14, 
-    '65 a 69 anos': 15, 
-    '70 a 74 anos': 16, 
-    '75 a 79 anos': 17, 
-    '80 anos ou mais': 18, 
-    'Inconsistente': 19
+    '50 a 54 anos': 12,
+    '55 a 59 anos': 13,
+    '60 a 64 anos': 14,
+    '65 a 69 anos': 15,
+    '70 a 74 anos': 16,
+    '75 a 79 anos': 17,
+    '80 anos ou mais': 18,
+    Inconsistente: 19
 } // SFaixa_et%E1ria
 
 const sCapituloCID10 = '' // SCap%EDtulo_CID-10
@@ -124,6 +156,18 @@ const especialidadeAIH = {
   'Psiquiatria em hospital dia': 9,
   'Não informado': 10
 }
+
+const modalidade = {
+  Autogestão: 1,
+  'Cooperativa Médica': 2,
+  Filantropia: 3,
+  'Medicina de Grupo': 4,
+  'Seguradora Especializada em Saúde': 5,
+  'Cooperativa Odontológica': 6,
+  'Odontologia de Grupo': 7,
+  Administradora: 8,
+  'Administradora de Benefícios': 9
+}
 */
 
 const modalidade = {
@@ -141,7 +185,7 @@ const modalidade = {
 function main () {
   for (const i in jsonFile) {
     let ano = jsonFile[i]['1']
-    ano = ano.toString().length == 2 ? ano : '0' + ano
+    ano = ano.toString().length === 2 ? ano : '0' + ano
     const estado = jsonFile[i]['2']
     const tpAtd = jsonFile[i]['3']
     const sexo = jsonFile[i]['4']
@@ -154,7 +198,7 @@ function main () {
     // adicionar conforme disponibilidade no arquivo de entrada
 
     console.log(ano, estado, tpAtd, sexo, tpCnt, abrngc, segmnt, faixae, capcid)
-    // tpAtd, sexo, tpCnt, abrngc, segmnt, faixae, capcid, modali
+    // estado, tpAtd, sexo, tpCnt, abrngc, segmnt, faixae, capcid, modali
     // adicionar conforme disponibilidade no arq. de entr.
 
     const xhr = new XMLHttpRequest()
@@ -170,7 +214,7 @@ function main () {
 
     // adicionar conforme disponibilidade no arq. de entrada
     const body = `Arquivos=tb_res_${ano}.dbf&SUF=${estado}&STipo_de_atendimento=${tpAtd}&SSexo=${sexo}&STipo_de_contrata%E7%E3o=${tpCnt}&SAbrang%EAncia_geog.=${abrngc}&SSegmenta%E7%E3o_grupo=${segmnt}&SFaixa_et%E1ria=${faixae}&SCap%EDtulo_CID-10=${capcid}`
-    // &STipo_de_atendimento=${tpAtd}&SSexo=${sexo}&STipo_de_contrata%E7%E3o=${tpCnt}&SAbrang%EAncia_geog.=${abrngc}&SSegmenta%E7%E3o_grupo=${segmnt}&SFaixa_et%E1ria=${faixae}&SCap%EDtulo_CID-10=${capcid}&SModalidade=${modali}`
+    // &SUF=${estado}&STipo_de_atendimento=${tpAtd}&SSexo=${sexo}&STipo_de_contrata%E7%E3o=${tpCnt}&SAbrang%EAncia_geog.=${abrngc}&SSegmenta%E7%E3o_grupo=${segmnt}&SFaixa_et%E1ria=${faixae}&SCap%EDtulo_CID-10=${capcid}&SModalidade=${modali}`
     const parameters = `${requestBodyStart}${body}${requestBodyEnd}`
 
     xhr.open('POST', url, false)
@@ -183,7 +227,7 @@ function main () {
         modali = 1
       } // quickfix para valor cobrado em que a primeira linha do arquivo retorna 0
       const quantidade = '0\n'
-      csvLine += `${ano};${estado};${tpAtd};${sexo};${tpCnt};${abrngc};${segmnt};${faixae};${capcid};${modali};${quantidade}`;
+      csvLine += `${ano};${estado};${quantidade}`
     } else {
       let linhas = tab.querySelectorAll('tr').length - 3
 
@@ -191,12 +235,13 @@ function main () {
         linhas = 1
       }
 
-      for (j = 2; j < 2 + linhas; j++) {
+      for (let j = 2; j < 2 + linhas; j++) {
         /* *** PARA O RESTANTE *** */
         const header = tab.querySelectorAll('tr')[j].children[0].innerText.trim()
         // adicionar a coluna que queremos extrair
+        // estado = UF[header]
         // tpAtd = tipoAtendimento[header]
-        // sexoCl = sexo[header]
+        // sexo = sexoCl[header]
         // tpCnt = tipoContratacao[header]
         // abrngc = abrangenciaGeografica[header]
         // segmnt = segmentacaoGrupo[header]
@@ -208,9 +253,9 @@ function main () {
         // munici = tab.querySelectorAll("tr")[j].children[0].innerText.replace(/\D/g,"")
         /* */
 
-        quantidade = tab.querySelectorAll('tr')[j].children[1].innerText
+        const quantidade = tab.querySelectorAll('tr')[j].children[1].innerText
         // adicionar a coluna que queremos extrair
-        csvLine += `${ano};${estado};${tpAtd};${sexo};${tpCnt};${abrngc};${segmnt};${faixae};${capcid};${modali};${quantidade}`// ;${sexo};${tpCnt};${abrngc};${segmnt};${faixae};${capcid};${modali};${quantidade}`
+        csvLine += `${ano};${estado};${tpAtd};${sexo};${tpCnt};${abrngc};${segmnt};${faixae};${capcid};${modali};${quantidade}`// ;${estado};${tpAtd};${sexo};${tpCnt};${abrngc};${segmnt};${faixae};${capcid};${modali};${quantidade}`
       }
     }
 
