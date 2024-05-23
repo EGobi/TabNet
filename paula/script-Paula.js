@@ -13,13 +13,13 @@ linha = 'Modalidade'
 const linha = 'Modalidade'
 
 // Atendimentos, Valor_total, Valor_m%E9dio, Valor_cobrado, Valor_pago, Quantidade_cobrada, Quantidade_paga
-const incremento = 'Quantidade_paga'
+const incremento = 'Valor_m%E9dio'
 
 const requestBodyStart = `Linha=${linha}&Coluna=--N%E3o-Ativa--&Incremento=${incremento}&`
 const requestBodyEnd = '&formato=table&mostre=Mostra'
 
-// csvLine = `data:text/csv;charset=utf-8,Ano;Estado;Tipo de atendimento;Sexo;Tipo de contratação;Abrangência geográfica;Segmentação por grupo;Faixa etária;Capítulo CID-10;Modalidade;Valor cobrado\r\n`
-let csvLine = 'data:text/csv;charset=utf-8,Ano;Estado;Tipo de atendimento;Sexo;Tipo de contratação;Abrangência geográfica;Segmentação por grupo;Faixa etária;Capítulo CID-10;Modalidade;Quantidade paga\r\n'
+//  csvLine = `data:text/csv;charset=utf-8,Ano;Estado;Tipo de atendimento;Sexo;Tipo de contratação;Abrangência geográfica;Segmentação por grupo;Faixa etária;Capítulo CID-10;Modalidade;Atendimentos\r\n`
+let csvLine = 'data:text/csv;charset=utf-8,Ano;Estado;Tipo de atendimento;Sexo;Tipo de contratação;Abrangência geográfica;Segmentação por grupo;Faixa etária;Capítulo CID-10;Modalidade;Valor médio\r\n'
 const url = 'https://www.ans.gov.br/anstabnet/cgi-bin/tabnet?dados/tabnet_res.def'
 /*
 const UF = {
@@ -198,7 +198,7 @@ function main () {
     // adicionar conforme disponibilidade no arquivo de entrada
 
     console.log(ano, estado, tpAtd, sexo, tpCnt, abrngc, segmnt, faixae, capcid)
-    // estado, tpAtd, sexo, tpCnt, abrngc, segmnt, faixae, capcid, modali
+    //               estado, tpAtd, sexo, tpCnt, abrngc, segmnt, faixae, capcid, modali
     // adicionar conforme disponibilidade no arq. de entr.
 
     const xhr = new XMLHttpRequest()
@@ -214,7 +214,7 @@ function main () {
 
     // adicionar conforme disponibilidade no arq. de entrada
     const body = `Arquivos=tb_res_${ano}.dbf&SUF=${estado}&STipo_de_atendimento=${tpAtd}&SSexo=${sexo}&STipo_de_contrata%E7%E3o=${tpCnt}&SAbrang%EAncia_geog.=${abrngc}&SSegmenta%E7%E3o_grupo=${segmnt}&SFaixa_et%E1ria=${faixae}&SCap%EDtulo_CID-10=${capcid}`
-    // &SUF=${estado}&STipo_de_atendimento=${tpAtd}&SSexo=${sexo}&STipo_de_contrata%E7%E3o=${tpCnt}&SAbrang%EAncia_geog.=${abrngc}&SSegmenta%E7%E3o_grupo=${segmnt}&SFaixa_et%E1ria=${faixae}&SCap%EDtulo_CID-10=${capcid}&SModalidade=${modali}`
+    //                                      &SUF=${estado}&STipo_de_atendimento=${tpAtd}&SSexo=${sexo}&STipo_de_contrata%E7%E3o=${tpCnt}&SAbrang%EAncia_geog.=${abrngc}&SSegmenta%E7%E3o_grupo=${segmnt}&SFaixa_et%E1ria=${faixae}&SCap%EDtulo_CID-10=${capcid}&SModalidade=${modali}`
     const parameters = `${requestBodyStart}${body}${requestBodyEnd}`
 
     xhr.open('POST', url, false)
@@ -227,7 +227,7 @@ function main () {
         modali = 1
       } // quickfix para valor cobrado em que a primeira linha do arquivo retorna 0
       const quantidade = '0\n'
-      csvLine += `${ano};${estado};${quantidade}`
+      csvLine += `${ano};${estado};${tpAtd};${sexo};${tpCnt};${abrngc};${segmnt};${faixae};${capcid};${quantidade}`
     } else {
       let linhas = tab.querySelectorAll('tr').length - 3
 
@@ -255,7 +255,8 @@ function main () {
 
         const quantidade = tab.querySelectorAll('tr')[j].children[1].innerText
         // adicionar a coluna que queremos extrair
-        csvLine += `${ano};${estado};${tpAtd};${sexo};${tpCnt};${abrngc};${segmnt};${faixae};${capcid};${modali};${quantidade}`// ;${estado};${tpAtd};${sexo};${tpCnt};${abrngc};${segmnt};${faixae};${capcid};${modali};${quantidade}`
+        csvLine += `${ano};${estado};${tpAtd};${sexo};${tpCnt};${abrngc};${segmnt};${faixae};${capcid};${modali};${quantidade}`
+        //                ;${estado};${tpAtd};${sexo};${tpCnt};${abrngc};${segmnt};${faixae};${capcid};${modali};${quantidade}`
       }
     }
 
