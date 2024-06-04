@@ -1,25 +1,17 @@
 // a linha deve corresponder à coluna que queremos extrair, e o incremento ao valor
 /*
-linha = 'UF'
-linha = 'Tipo_de_atendimento'
-linha = 'Sexo'
-linha = 'Tipo_de_contrata%E7%E3o'
-linha = 'Abrang%EAncia_geog.'
-linha = 'Segmenta%E7%E3o_grupo'
-linha = 'Faixa_et%E1ria'
-linha = 'Cap%EDtulo_CID-10'
-linha = 'Modalidade'
+linha = UF, Tipo_de_atendimento, Sexo, Tipo_de_contrata%E7%E3o, Abrang%EAncia_geog., Segmenta%E7%E3o_grupo, Faixa_et%E1ria, Cap%EDtulo_CID-10, Modalidade
 */
-const linha = 'Modalidade'
+const linha = 'UF'
 
 // Atendimentos, Valor_total, Valor_m%E9dio, Valor_cobrado, Valor_pago, Quantidade_cobrada, Quantidade_paga
-const incremento = 'Quantidade_paga'
+const incremento = 'Atendimentos'
 
 const requestBodyStart = `Linha=${linha}&Coluna=--N%E3o-Ativa--&Incremento=${incremento}&`
 const requestBodyEnd = '&formato=table&mostre=Mostra'
 
 //  csvLine = `data:text/csv;charset=utf-8,Ano;Estado;Tipo de atendimento;Sexo;Tipo de contratação;Abrangência geográfica;Segmentação por grupo;Faixa etária;Capítulo CID-10;Modalidade;Atendimentos\r\n`
-let csvLine = 'data:text/csv;charset=utf-8,Ano;Estado;Tipo de atendimento;Sexo;Tipo de contratação;Abrangência geográfica;Segmentação por grupo;Faixa etária;Capítulo CID-10;Modalidade;Quantidade paga\r\n'
+let csvLine = 'data:text/csv;charset=utf-8,Ano;Estado;Atendimentos\r\n'
 const url = 'https://www.ans.gov.br/anstabnet/cgi-bin/tabnet?dados/tabnet_res.def'
 /*
 const UF = {
@@ -170,34 +162,54 @@ const modalidade = {
 }
 */
 
-const modalidade = {
-  Autogestão: 1,
-  'Cooperativa Médica': 2,
-  Filantropia: 3,
-  'Medicina de Grupo': 4,
-  'Seguradora Especializada em Saúde': 5,
-  'Cooperativa Odontológica': 6,
-  'Odontologia de Grupo': 7,
-  Administradora: 8,
-  'Administradora de Benefícios': 9
+const UF = {
+  Acre: 1,
+  Alagoas: 2,
+  Amapá: 3,
+  Amazonas: 4,
+  Bahia: 5,
+  Ceará: 6,
+  'Distrito Federal': 7,
+  'Espírito Santo': 8,
+  Goiás: 9,
+  Maranhão: 10,
+  'Mato Grosso': 11,
+  'Mato Grosso do Sul': 12,
+  'Minas Gerais': 13,
+  Pará: 14,
+  Paraíba: 15,
+  Paraná: 16,
+  Pernambuco: 17,
+  Piauí: 18,
+  'Rio de Janeiro': 19,
+  'Rio Grande do Norte': 20,
+  'Rio Grande do Sul': 21,
+  Rondônia: 22,
+  Roraima: 23,
+  'Santa Catarina': 24,
+  'São Paulo': 25,
+  Sergipe: 26,
+  Tocantins: 27,
+  Exterior: 28,
+  'Não Identificado': 29
 }
 
 function main () {
   for (const i in jsonFile) {
     let ano = jsonFile[i]['1']
     ano = ano.toString().length === 2 ? ano : '0' + ano
-    const estado = jsonFile[i]['2']
-    const tpAtd = jsonFile[i]['3']
-    const sexo = jsonFile[i]['4']
-    const tpCnt = jsonFile[i]['5']
-    const abrngc = jsonFile[i]['6']
-    const segmnt = jsonFile[i]['7']
-    const faixae = jsonFile[i]['8']
-    const capcid = jsonFile[i]['9']
+    //const estado = jsonFile[i]['2']
+    //const tpAtd = jsonFile[i]['3']
+    //const sexo = jsonFile[i]['4']
+    //const tpCnt = jsonFile[i]['5']
+    //const abrngc = jsonFile[i]['6']
+    //const segmnt = jsonFile[i]['7']
+    //const faixae = jsonFile[i]['8']
+    //const capcid = jsonFile[i]['9']
     // modali = jsonFile[i]['10']
     // adicionar conforme disponibilidade no arquivo de entrada
 
-    console.log(ano, estado, tpAtd, sexo, tpCnt, abrngc, segmnt, faixae, capcid)
+    console.log(ano)
     //               estado, tpAtd, sexo, tpCnt, abrngc, segmnt, faixae, capcid, modali
     // adicionar conforme disponibilidade no arq. de entr.
 
@@ -213,7 +225,7 @@ function main () {
     }
 
     // adicionar conforme disponibilidade no arq. de entrada
-    const body = `Arquivos=tb_res_${ano}.dbf&SUF=${estado}&STipo_de_atendimento=${tpAtd}&SSexo=${sexo}&STipo_de_contrata%E7%E3o=${tpCnt}&SAbrang%EAncia_geog.=${abrngc}&SSegmenta%E7%E3o_grupo=${segmnt}&SFaixa_et%E1ria=${faixae}&SCap%EDtulo_CID-10=${capcid}`
+    const body = `Arquivos=tb_res_${ano}.dbf`
     //                                      &SUF=${estado}&STipo_de_atendimento=${tpAtd}&SSexo=${sexo}&STipo_de_contrata%E7%E3o=${tpCnt}&SAbrang%EAncia_geog.=${abrngc}&SSegmenta%E7%E3o_grupo=${segmnt}&SFaixa_et%E1ria=${faixae}&SCap%EDtulo_CID-10=${capcid}&SModalidade=${modali}`
     const parameters = `${requestBodyStart}${body}${requestBodyEnd}`
 
@@ -239,7 +251,7 @@ function main () {
         /* *** PARA O RESTANTE *** */
         const header = tab.querySelectorAll('tr')[j].children[0].innerText.trim()
         // adicionar a coluna que queremos extrair
-        // estado = UF[header]
+        const estado = UF[header]
         // tpAtd = tipoAtendimento[header]
         // sexo = sexoCl[header]
         // tpCnt = tipoContratacao[header]
@@ -247,7 +259,7 @@ function main () {
         // segmnt = segmentacaoGrupo[header]
         // faixae = faixaEtaria[header]
         // capcid = capituloCID10[header]
-        modali = modalidade[header]
+        // modali = modalidade[header]
         /* */
         /* *** PARA MUNICÍPIO *** */
         // munici = tab.querySelectorAll("tr")[j].children[0].innerText.replace(/\D/g,"")
@@ -255,7 +267,7 @@ function main () {
 
         const quantidade = tab.querySelectorAll('tr')[j].children[1].innerText
         // adicionar a coluna que queremos extrair
-        csvLine += `${ano};${estado};${tpAtd};${sexo};${tpCnt};${abrngc};${segmnt};${faixae};${capcid};${modali};${quantidade}`
+        csvLine += `${ano};${estado};${quantidade}`
         //                ;${estado};${tpAtd};${sexo};${tpCnt};${abrngc};${segmnt};${faixae};${capcid};${modali};${quantidade}`
       }
     }
