@@ -2,7 +2,7 @@
 /*
 linha = UF, Tipo_de_atendimento, Sexo, Tipo_de_contrata%E7%E3o, Abrang%EAncia_geog., Segmenta%E7%E3o_grupo, Faixa_et%E1ria, Cap%EDtulo_CID-10, Modalidade
 */
-const linha = 'Cap%EDtulo_CID-10'
+const linha = 'Modalidade'
 
 // Atendimentos, Valor_total, Valor_m%E9dio, Valor_cobrado, Valor_pago, Quantidade_cobrada, Quantidade_paga
 const incremento = 'Atendimentos'
@@ -11,7 +11,7 @@ const requestBodyStart = `Linha=${linha}&Coluna=--N%E3o-Ativa--&Incremento=${inc
 const requestBodyEnd = '&formato=table&mostre=Mostra'
 
 //  csvLine = `data:text/csv;charset=utf-8,Ano;Estado;Tipo de atendimento;Sexo;Tipo de contratação;Abrangência geográfica;Segmentação por grupo;Faixa etária;Capítulo CID-10;Modalidade;Atendimentos\r\n`
-let csvLine = 'data:text/csv;charset=utf-8,Ano;Estado;Tipo de atendimento;Sexo;Tipo de contratação;Abrangência geográfica;Segmentação por grupo;Faixa etária;Capítulo CID-10;Atendimentos\r\n'
+let csvLine = 'data:text/csv;charset=utf-8,Ano;Estado;Tipo de atendimento;Sexo;Tipo de contratação;Abrangência geográfica;Segmentação por grupo;Faixa etária;Capítulo CID-10;Modalidade;Atendimentos\r\n'
 const url = 'https://www.ans.gov.br/anstabnet/cgi-bin/tabnet?dados/tabnet_res.def'
 /*
 const UF = {
@@ -162,33 +162,16 @@ const modalidade = {
 }
 */
 
-const sCapituloCID10 = '' // SCap%EDtulo_CID-10
-const capituloCID10 = {
-  'I.   Algumas doenças infecciosas e parasitárias': 1,
-  'II.  Neoplasias (tumores)': 2,
-  'III. Doenças sangue órgãos hemat e transt imunitár': 3,
-  'IV.  Doenças endócrinas nutricionais e metabólicas': 4,
-  'V.   Transtornos mentais e comportamentais': 5,
-  'VI.  Doenças do sistema nervoso': 6,
-  'VII. Doenças do olho e anexos': 7,
-  'VIII.Doenças do ouvido e da apófise mastóide': 8,
-  'IX.  Doenças do aparelho circulatório': 9,
-  'X.   Doenças do aparelho respiratório': 10,
-  'XI.  Doenças do aparelho digestivo': 11,
-  'XII. Doenças da pele e do tecido subcutâneo': 12,
-  'XIII.Doenças sist osteomuscular e tec conjuntivo': 13,
-  'XIV. Doenças do aparelho geniturinário': 14,
-  'XV.  Gravidez parto e puerpério': 15,
-  'XVI. Algumas afec originadas no período perinatal': 16,
-  'XVII.Malf cong deformid e anomalias cromossômicas': 17,
-  'XVIII.Sint sinais e achad anorm ex clín e laborat': 18,
-  'XIX. Lesões enven e alg out conseq causas externas': 19,
-  'XX.  Causas externas de morbidade e mortalidade': 20,
-  'XXI. Contatos com serviços de saúde': 21,
-  'XXII.Códigos para propósitos especiais': 22,
-  'U99  CID 10ª Revisão não disponível': 23,
-  Ignorado: 24,
-  'Não informado': 25
+const modalidade = {
+  Autogestão: 1,
+  'Cooperativa Médica': 2,
+  Filantropia: 3,
+  'Medicina de Grupo': 4,
+  'Seguradora Especializada em Saúde': 5,
+  'Cooperativa Odontológica': 6,
+  'Odontologia de Grupo': 7,
+  Administradora: 8,
+  'Administradora de Benefícios': 9
 }
 
 function main () {
@@ -202,11 +185,11 @@ function main () {
     const abrngc = jsonFile[i]['6']
     const segmnt = jsonFile[i]['7']
     const faixae = jsonFile[i]['8']
-    // const capcid = jsonFile[i]['9']
+    const capcid = jsonFile[i]['9']
     // modali = jsonFile[i]['10']
     // adicionar conforme disponibilidade no arquivo de entrada
 
-    console.log(ano, estado, tpAtd, sexo, tpCnt, abrngc, segmnt, faixae)
+    console.log(ano, estado, tpAtd, sexo, tpCnt, abrngc, segmnt, faixae, capcid)
     //               estado, tpAtd, sexo, tpCnt, abrngc, segmnt, faixae, capcid, modali
     // adicionar conforme disponibilidade no arq. de entr.
 
@@ -222,7 +205,7 @@ function main () {
     }
 
     // adicionar conforme disponibilidade no arq. de entrada
-    const body = `Arquivos=tb_res_${ano}.dbf&SUF=${estado}&STipo_de_atendimento=${tpAtd}&SSexo=${sexo}&STipo_de_contrata%E7%E3o=${tpCnt}&SAbrang%EAncia_geog.=${abrngc}&SSegmenta%E7%E3o_grupo=${segmnt}&SFaixa_et%E1ria=${faixae}`
+    const body = `Arquivos=tb_res_${ano}.dbf&SUF=${estado}&STipo_de_atendimento=${tpAtd}&SSexo=${sexo}&STipo_de_contrata%E7%E3o=${tpCnt}&SAbrang%EAncia_geog.=${abrngc}&SSegmenta%E7%E3o_grupo=${segmnt}&SFaixa_et%E1ria=${faixae}&SCap%EDtulo_CID-10=${capcid}`
     //                                      &SUF=${estado}&STipo_de_atendimento=${tpAtd}&SSexo=${sexo}&STipo_de_contrata%E7%E3o=${tpCnt}&SAbrang%EAncia_geog.=${abrngc}&SSegmenta%E7%E3o_grupo=${segmnt}&SFaixa_et%E1ria=${faixae}&SCap%EDtulo_CID-10=${capcid}&SModalidade=${modali}`
     const parameters = `${requestBodyStart}${body}${requestBodyEnd}`
 
@@ -255,8 +238,8 @@ function main () {
         // const abrngc = abrangenciaGeografica[header]
         // const segmnt = segmentacaoGrupo[header]
         // const faixae = faixaEtaria[header]
-        const capcid = capituloCID10[header]
-        // modali = modalidade[header]
+        // const capcid = capituloCID10[header]
+        const modali = modalidade[header]
         /* */
         /* *** PARA MUNICÍPIO *** */
         // munici = tab.querySelectorAll("tr")[j].children[0].innerText.replace(/\D/g,"")
@@ -264,7 +247,7 @@ function main () {
 
         const quantidade = tab.querySelectorAll('tr')[j].children[1].innerText
         // adicionar a coluna que queremos extrair
-        csvLine += `${ano};${estado};${tpAtd};${sexo};${tpCnt};${abrngc};${segmnt};${faixae};${capcid};${quantidade}`
+        csvLine += `${ano};${estado};${tpAtd};${sexo};${tpCnt};${abrngc};${segmnt};${faixae};${capcid};${modali};${quantidade}`
         //                ;${estado};${tpAtd};${sexo};${tpCnt};${abrngc};${segmnt};${faixae};${capcid};${modali};${quantidade}`
       }
     }
