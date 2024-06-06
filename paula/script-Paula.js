@@ -5,13 +5,13 @@ linha = UF, Tipo_de_atendimento, Sexo, Tipo_de_contrata%E7%E3o, Abrang%EAncia_ge
 const linha = 'Modalidade'
 
 // Atendimentos, Valor_total, Valor_m%E9dio, Valor_cobrado, Valor_pago, Quantidade_cobrada, Quantidade_paga
-const incremento = 'Atendimentos'
+const incremento = 'Valor_total'
 
 const requestBodyStart = `Linha=${linha}&Coluna=--N%E3o-Ativa--&Incremento=${incremento}&`
 const requestBodyEnd = '&formato=table&mostre=Mostra'
 
 //  csvLine = `data:text/csv;charset=utf-8,Ano;Estado;Tipo de atendimento;Sexo;Tipo de contratação;Abrangência geográfica;Segmentação por grupo;Faixa etária;Capítulo CID-10;Modalidade;Atendimentos\r\n`
-let csvLine = 'data:text/csv;charset=utf-8,Ano;Estado;Tipo de atendimento;Sexo;Tipo de contratação;Abrangência geográfica;Segmentação por grupo;Faixa etária;Capítulo CID-10;Modalidade;Atendimentos\r\n'
+let csvLine = 'data:text/csv;charset=utf-8,Ano;Estado;Tipo de atendimento;Sexo;Tipo de contratação;Abrangência geográfica;Segmentação por grupo;Faixa etária;Capítulo CID-10;Modalidade;Valor total\r\n'
 const url = 'https://www.ans.gov.br/anstabnet/cgi-bin/tabnet?dados/tabnet_res.def'
 /*
 const UF = {
